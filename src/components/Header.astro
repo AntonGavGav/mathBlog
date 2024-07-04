@@ -1,0 +1,17 @@
+---
+import navData from "../data/navData";
+import Link from "./Link.astro";
+---
+<nav>
+    <div class="min-w-full flex justify-between items-center container">
+        <p>Image should be here</p>
+        <div class="flex gap-2">
+        {navData.map((item) => (
+            <Link
+                href={item.path}
+                text={item.name}
+            />
+        ))}
+        </div>
+    </div>
+</nav>

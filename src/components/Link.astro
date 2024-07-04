@@ -1,0 +1,61 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props{
+    text: string;
+    href: string;
+    icon?: {
+        name: string;
+        side: "left" | "right";
+    };
+    isFilled?: boolean;
+    borderVisible?: boolean;
+    classes?: string;
+}
+
+const {
+    text,
+    href,
+    icon,
+    isFilled = false,
+    borderVisible = false,
+    classes,
+    ...rest //additional props that can be passed in
+} = Astro.props;
+
+---
+
+<a
+href={href}
+class:list ={[
+        "link",
+        classes,
+        { filled: isFilled, bordered: borderVisible}
+    ]}
+    {...rest}
+>
+    {
+        icon && icon.side === "left" && (
+            <Icon name={icon.name} height={24} width={24}/>
+        )
+    }
+    <span>{text}</span>
+    {
+         icon && icon.side === "right" && (
+            <Icon name={icon.name} height={24} width={24}/>
+        )
+    }
+</a>
+
+<style>
+    /*text-[#525257]*/
+    .link {
+        @apply p-2 relative
+    }
+     .bordered{
+        @apply border-2 px-5 font-medium;
+     }
+     .filled{
+         @apply bg-light-accent text-black px-5
+     }
+</style>

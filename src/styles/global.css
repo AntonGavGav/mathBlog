@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    @font-face {
+        font-family: 'DMSans';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("./fonts/DMSans.ttf") format("truetype");
+    }
+    @font-face {
+        font-family: 'Daydream';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("./fonts/Daydream.ttf") format("truetype");
+    }
+    html{
+        @apply bg-bg-color text-text-primary-color font-sans
+    }
+    body{
+        @apply max-w-[70rem] m-auto h-screen text-xl
+    }
+    .container{
+        @apply border-2 bg-dark-accent p-3
+    }
+    .main-text{
+        @apply text-[7.5rem] leading-tight font-daydream
+    }
+    .h2{
+        @apply text-4xl font-bold
+    }
+}

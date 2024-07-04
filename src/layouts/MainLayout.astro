@@ -1,3 +1,10 @@
+---
+//styles import
+import "../styles/global.css"
+//components import
+import Header from "../components/Header.astro";
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -8,9 +15,12 @@
 		<meta name="generator" content={Astro.generator} />
 		<title>Math Blog</title>
 	</head>
-	<body class="bg-slate-950 text-slate-100">
-		<slot />
+	<body>
+		<header class="w-full">
+			<Header/>
+		</header>
+		<main>
+			<slot />
+		</main>
 	</body>
 </html>
-<style is:global>
-</style>
