@@ -3,6 +3,12 @@
 import { Image } from 'astro:assets';
 //layouts import
 import MainLayout from '../layouts/MainLayout.astro';
+//component import
+import Icon from '../components/Icon.astro'
+
+
+ // The attributes you want to add
+const attributes = { width: "500", height: "500", fill: "white" };
 ---
 
 <MainLayout title="Welcome to Astro.">
@@ -20,4 +26,5 @@ import MainLayout from '../layouts/MainLayout.astro';
 			loading="eager"
 		/>
 	</div>
+	<Icon icon="search" {...attributes} />
 </MainLayout>
