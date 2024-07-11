@@ -1,4 +1,6 @@
 ---
+//component imports
+import Icon from "./Icon.astro";
 
 
 interface Props{
@@ -10,7 +12,7 @@ interface Props{
     };
     isFilled?: boolean;
     borderVisible?: boolean;
-    classes?: string;
+    class?: string;
 }
 
 const {
@@ -19,30 +21,32 @@ const {
     icon,
     isFilled = false,
     borderVisible = false,
-    classes,
+    class: className ="",
     ...rest //additional props that can be passed in
-} = Astro.props;
+} = Astro.props as Props;
 
+
+const attributes = {width: "26", height: "26", fill: "white"};
 ---
 
 <a
 href={href}
 class:list ={[
         "link",
-        classes,
+        className,
         { filled: isFilled, bordered: borderVisible}
     ]}
     {...rest}
 >
     {
         icon && icon.side === "left" && (
-            <Icon name={icon.name} height={24} width={24}/>
+            <Icon icon={icon.name} {...attributes} />
         )
     }
     <span>{text}</span>
     {
          icon && icon.side === "right" && (
-            <Icon name={icon.name} height={24} width={24}/>
+            <Icon icon={icon.name} {...attributes}/>
         )
     }
 </a>
@@ -50,7 +54,7 @@ class:list ={[
 <style>
     /*text-[#525257]*/
     .link {
-        @apply p-2 relative
+        @apply p-2 relative inline-flex justify-between items-center;
     }
      .bordered{
         @apply border-2 px-5 font-medium;
@@ -58,4 +62,7 @@ class:list ={[
      .filled{
          @apply bg-light-accent text-black px-5
      }
+    .container{
+        @apply p-4
+    }
 </style>

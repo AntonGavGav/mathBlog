@@ -1,10 +1,6 @@
 ---
 import { parse } from 'node-html-parser';
 
-export interface Props {
-    icon: string;
-}
-
 async function getSVG(name: string) {
     const filepath = `/src/svg/${name}.svg`;
     let files = import.meta.glob<string>('../icons/**/*.svg', { as: 'raw' });
@@ -35,7 +31,19 @@ async function getSVG(name: string) {
     };
 }
 
-const { icon, ...attributes } = Astro.props as Props;
+export interface Props {
+    icon: string,
+    isInverted: boolean,
+    classes: string,
+}
+
+const {
+    icon,
+    isInverted = false,
+    classes,
+    ...attributes
+} = Astro.props as Props;
+
 const { attributes: baseAttributes, innerHTML } = await getSVG(icon);
 
 const svgAttributes = { ...baseAttributes, ...attributes };
@@ -43,7 +51,17 @@ const svgAttributes = { ...baseAttributes, ...attributes };
 
 ---
 
-<svg
+<svg class:list={[
+    classes,
+    { inverted: isInverted }
+]}
     {...svgAttributes}
     set:html={innerHTML}
 ></svg>
+
+<style>
+    .inverted{
+        -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
+        filter: invert(100%);
+    }
+</style>

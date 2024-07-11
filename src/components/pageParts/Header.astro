@@ -1,0 +1,22 @@
+---
+import navData from "../../data/navData";
+import Link from "../Link.astro";
+import Icon from "../Icon.astro";
+
+const attributes = { width: "60", height: "60"};
+---
+<nav>
+    <div class="min-w-full flex justify-between items-center p-3 container">
+        <a href = "/">
+            <Icon icon="logo" isInverted={true} {...attributes} />
+        </a>
+        <div class="flex gap-2">
+        {navData.map((item) => (
+            <Link
+                href={item.path}
+                text={item.name}
+            />
+        ))}
+        </div>
+    </div>
+</nav>

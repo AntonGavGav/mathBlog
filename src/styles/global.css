@@ -24,7 +24,7 @@
         @apply max-w-[70rem] m-auto h-screen text-xl
     }
     .container{
-        @apply border-2 bg-dark-accent p-3
+        @apply border-2 bg-dark-accent
     }
     .main-text{
         @apply text-[7.5rem] leading-tight font-daydream
@@ -32,4 +32,8 @@
     .h2{
         @apply text-4xl font-bold
     }
+    .h3{
+        @apply text-2xl font-bold
+    }
+
 }

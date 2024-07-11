@@ -11,7 +11,7 @@ export default {
 				'bg-color': "#141313",
 				'text-primary-color': "#f1f1f1",
 				'text-secondary-color': "#cfcfcf",
-				'dark-accent': '#000000',
+				'dark-accent': '#0d0b0b',
 				'light-accent': '#ffffff',
 			}
 		},
