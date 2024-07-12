@@ -1,35 +1,7 @@
 ---
-import { parse } from 'node-html-parser';
+import { getSVG } from "../ts/utils";
 
-async function getSVG(name: string) {
-    const filepath = `/src/svg/${name}.svg`;
-    let files = import.meta.glob<string>('../icons/**/*.svg', { as: 'raw' });
-    const svgs = {};
-    for (const path in files) {
-        const content = await files[path]();
-        const absolutePath = path.replace('../icons', '/src/svg');
-        svgs[absolutePath] = content;
-    }
 
-    if (!(filepath in svgs)) {
-        throw new Error(`${filepath} not found`);
-    }
-
-    const root = parse(svgs[filepath]);
-
-    const svg = root.querySelector('svg');
-
-    //console.log(svg);
-
-    const { attributes, innerHTML } = svg;
-    
-    // console.log(attributes);
-    // console.log(innerHTML);
-    return {
-        attributes,
-        innerHTML,
-    };
-}
 
 export interface Props {
     icon: string,
@@ -61,7 +33,7 @@ const svgAttributes = { ...baseAttributes, ...attributes };
 
 <style>
     .inverted{
-        -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
+        -webkit-filter: invert(100%);
         filter: invert(100%);
     }
 </style>

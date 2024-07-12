@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+    --bg-color: #141313;
+    --text-primary-color: #f1f1f1;
+    --text-secondary-color: #cfcfcf;
+    --dark-accent: #0d0b0b;
+    --light-accent: #ffffff;
+}
 
 @layer base{
     @font-face {
@@ -21,13 +28,16 @@
         @apply bg-bg-color text-text-primary-color font-sans
     }
     body{
-        @apply max-w-[70rem] m-auto h-screen text-xl
+        @apply max-w-[70rem] m-auto h-screen text-xl mb-52
     }
     .container{
-        @apply border-2 bg-dark-accent
+        @apply border-2 bg-dark-accent border-light-accent
     }
     .main-text{
         @apply text-[7.5rem] leading-tight font-daydream
+    }
+    .h1{
+        @apply text-6xl font-black;
     }
     .h2{
         @apply text-4xl font-bold

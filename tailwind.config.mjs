@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		fontFamily:{
@@ -8,11 +8,11 @@ export default {
 		},
 		extend: {
 			colors: {
-				'bg-color': "#141313",
-				'text-primary-color': "#f1f1f1",
-				'text-secondary-color': "#cfcfcf",
-				'dark-accent': '#0d0b0b',
-				'light-accent': '#ffffff',
+				'bg-color': "var(--bg-color)",
+				'text-primary-color': "var(--text-primary-color)",
+				'text-secondary-color': "var(--text-secondary-color)",
+				'dark-accent': 'var(--dark-accent)',
+				'light-accent': 'var(--light-accent)',
 			}
 		},
 	},

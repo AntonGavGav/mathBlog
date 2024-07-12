@@ -1,0 +1,47 @@
+---
+//component import
+import Link from "./Link.astro";
+//utils import
+import { formatDate } from "../ts/utils.ts"
+
+
+interface Props{
+    url: string,
+    frontmatter: Object,
+}
+const { url, frontmatter} = Astro.props as Props;
+
+interface Frontmatter{
+    title: string,
+    author: string,
+    category: string,
+    image: {
+        src: string,
+        alt: string,
+    },
+    date: string,
+}
+const {
+    title,
+    date,
+    author,
+    image,
+    category
+} = frontmatter as Frontmatter;
+---
+
+<article class="w-[43rem] h-[27rem] flex-none relative">
+    <div class="absolute min-w-full container p-2 flex items-center justify-between">
+        <div class="flex-grow basis-0"><Link  text = {category} href="/category" isFilled ={true}/></div>
+        <p>{formatDate(date)}</p>
+        <p class="flex-grow basis-0 text-right">{author}</p>
+    </div>
+    <a href={url}
+       style={`background-image: url(${image.src}); background-repeat: no-repeat; background-size: cover; background-position: center;`}
+       class="block w-full h-full"
+    ></a>
+    <p class="h3 container py-3 px-6 absolute bottom-0 w-[90%]">
+        {title}
+    </p>
+</article>
+

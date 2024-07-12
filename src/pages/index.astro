@@ -1,14 +1,29 @@
 ---
+//utils import
+import { formatBlogPosts } from "../ts/utils";
 //libraries import
 import { Image } from 'astro:assets';
 //layouts import
 import MainLayout from '../layouts/MainLayout.astro';
 //component import
 import QuickActions from '../components/pageParts/QuickActions.astro';
+import PostCard from "../components/PostCard.astro"
+
+interface Post {
+	frontmatter: {
+		date: string;
+		draft?: boolean;
+	};
+	[key: string]: any; // other properties of the post object
+}
 
 
- // The attributes you want to add
-const attributes = { width: "100", height: "100", fill: "white" };
+const limit = 6;
+const allPosts:Post[] = await Astro.glob("./blog/**/*.md");// /**/ grabs stuff in subdirectories
+const formatedPosts = formatBlogPosts(allPosts, {
+	limit: limit,
+});
+
 ---
 
 <MainLayout title="Welcome to Astro.">
@@ -27,4 +42,42 @@ const attributes = { width: "100", height: "100", fill: "white" };
 		/>
 	</div>
 	<QuickActions />
+	<section class="mt-14">
+		<h3 class="h1 mb-5">Last {limit} posts:</h3>
+		<div class="scrollbar w-full pb-6 flex flex-nowrap gap-10 overflow-x-auto">
+			{
+				formatedPosts.map((post: Post) => <PostCard url = {post.url} frontmatter = {post.frontmatter} />)
+			}
+		</div>
+	</section>
 </MainLayout>
+
+<style>
+	.scrollbar {
+		--sb-track-color: var(--bg-color);
+		--sb-thumb-color: #ffffff;
+		--sb-size: 10px;
+	}
+
+	.scrollbar::-webkit-scrollbar {
+		width: var(--sb-size);
+		height: 14px;
+	}
+
+	.scrollbar::-webkit-scrollbar-track {
+		background: var(--sb-track-color);
+		border: 2px solid var(--sb-thumb-color);
+		border-radius: 1px;
+	}
+
+	.scrollbar::-webkit-scrollbar-thumb {
+		background: var(--sb-thumb-color);
+	}
+
+	@supports not selector(::-webkit-scrollbar) {
+		body {
+			scrollbar-color: var(--sb-thumb-color)
+			var(--sb-track-color);
+		}
+	}
+</style>
