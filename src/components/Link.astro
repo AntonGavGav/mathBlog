@@ -9,6 +9,7 @@ interface Props{
     icon?: {
         name: string;
         side: "left" | "right";
+        attributes?: any;
     };
     isFilled?: boolean;
     borderVisible?: boolean;
@@ -26,7 +27,7 @@ const {
 } = Astro.props as Props;
 
 
-const attributes = {width: "26", height: "26", fill: "white"};
+const attributes = icon?.attributes ?? { width: "26", height: "26", fill: "white" };
 ---
 
 <a

@@ -6,16 +6,17 @@
     --text-primary-color: #f1f1f1;
     --text-secondary-color: #cfcfcf;
     --dark-accent: #0d0b0b;
-    --light-accent: #ffffff;
+    --light-accent: #f1f1f1;
 }
 
 @layer base{
+    /*font faces*/
     @font-face {
-        font-family: 'DMSans';
+        font-family: 'Videotype';
         font-style: normal;
         font-weight: 400;
         font-display: swap;
-        src: url("./fonts/DMSans.ttf") format("truetype");
+        src: url("./fonts/Videotype.ttf") format("truetype");
     }
     @font-face {
         font-family: 'Daydream';
@@ -24,12 +25,26 @@
         font-display: swap;
         src: url("./fonts/Daydream.ttf") format("truetype");
     }
+    @font-face {
+        font-family: 'November';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("./fonts/November.ttf") format("truetype");
+    }
+
+    /* global attributes */
     html{
         @apply bg-bg-color text-text-primary-color font-sans
     }
     body{
-        @apply max-w-[70rem] m-auto h-screen text-xl mb-52
+        @apply max-w-[70rem] m-auto h-screen text-xl
     }
+    main{
+        @apply pb-24
+    }
+
+    /*global classes*/
     .container{
         @apply border-2 bg-dark-accent border-light-accent
     }
@@ -44,6 +59,11 @@
     }
     .h3{
         @apply text-2xl font-bold
+    }
+    .chessboard-bg{
+        background:
+                repeating-conic-gradient(var(--light-accent) 0% 25%, transparent 0% 50%)
+                50% center
     }
 
 }

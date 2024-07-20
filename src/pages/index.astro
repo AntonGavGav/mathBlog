@@ -26,8 +26,8 @@ const formatedPosts = formatBlogPosts(allPosts, {
 
 ---
 
-<MainLayout title="Welcome to Astro.">
-	<div class="mt-4 flex gap-[5%]">
+<MainLayout title="Math blog">
+	<section class="mt-4 flex gap-[5%]">
 		<div class="w-[50%] flex flex-col justify-center z-[1]">
 			<h1 class="main-text">Math Blog</h1>
 			<h2 class="text-text-secondary-color mt-3 h2">Created by Shunji and EventfulLynx915</h2>
@@ -40,7 +40,7 @@ const formatedPosts = formatBlogPosts(allPosts, {
 			class="w-[45%] aspect-square object-cover object-top z-0"
 			loading="eager"
 		/>
-	</div>
+	</section>
 	<QuickActions />
 	<section class="mt-14">
 		<h3 class="h1 mb-5">Last {limit} posts:</h3>

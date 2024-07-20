@@ -1,0 +1,180 @@
+---
+//lib import
+import { Image } from 'astro:assets';
+//layouts import
+import MainLayout from '../layouts/MainLayout.astro';
+//data import
+import creatorData from "../ts/creatorData"
+//component import
+import Link from "../components/Link.astro";
+
+
+const shuniji = creatorData["Shuniji"];
+const eventfullynx = creatorData["EventfulLynx915"];
+---
+
+<MainLayout title="About Creators">
+    <section class="mt-12 container w-full pb-10" id="list-container">
+        <div
+            class="w-full h-10 chessboard-bg"
+            style={{"backgroundSize": "20px 20px"}}
+        ></div>
+        <h1 class="main-text font-november text-center mt-12 pb-4">ABOUT US</h1>
+        <ul id="list" class="px-8 [&>li]:mb-2">
+            <li data-id="0">some text about us that can be pretty long so we gotta do it carefully cause who knows how long it will be and that is what i be testing right at the moment so I can be sure</li>
+            <li data-id="1">in my professional opinion it looks pretty decent and I would keep it that way</li>
+            <li data-id="2">third part about something small I guess</li>
+            <li data-id="3">We gotta keep a big amount of this parts cause I like the way it looks</li>
+            <li data-id="3">Big amount of text, we can come up with something for sure to write here</li>
+            <li data-id="3">And maybe one more for just some styling</li>
+        </ul>
+    </section>
+
+    <section class="flex justify-between mt-5">
+        <article>
+            <div class="flex justify-between items-center pt-12 px-10 relative">
+                <div class="h-[330px] w-[16%] overflow-hidden">
+                    <h2
+                            style="transform: scale(-1); writing-mode: vertical-lr;"
+                    >{shuniji.name.toUpperCase()}</h2>
+                </div>
+                <Image
+                        src={shuniji.imagePath}
+                        width={330}
+                        height={330}
+                        alt = "Shuniji pic"
+                />
+            </div>
+            <p>{shuniji.description}</p>
+            <section class="px-8 pb-4">
+                <Link text="" href={"https://www.google.com"} icon={{
+                    name: "github",
+                    side: "right",
+                    attributes: { width: "60", height: "60", fill: "white" },
+                }}  />
+                <Link text="" href={"https://www.google.com"} icon={{
+                    name: "instagram",
+                    side: "right",
+                    attributes: { width: "60", height: "60", stroke: "white" },
+                }}  />
+                <Link text="" href={"https://www.google.com"} icon={{
+                    name: "discord",
+                    side: "right",
+                    attributes: { width: "60", height: "60", stroke: "white" },
+                }}  />
+            </section>
+        </article>
+        <article>
+            <div class="flex justify-between items-center pt-12 px-10 relative">
+                <Image
+                        src={eventfullynx.imagePath}
+                        width={330}
+                        height={330}
+                        alt = "EventfulLynx pic"
+                />
+                <div class="h-[330px] w-[16%] overflow-hidden inline-block">
+                    <h2
+                        class="inline-block"
+                        style="writing-mode: vertical-rl;
+                        animation: vertical-scroll 10s infinite linear normal;
+                       "
+                    >{eventfullynx.name.toUpperCase()} </h2>
+                    <h2
+                            class="inline-block mt-[-6px]"
+                            style="writing-mode: vertical-rl;
+                        animation: vertical-scroll 10s infinite linear normal;
+                     "
+                    >{eventfullynx.name.toUpperCase()}</h2>
+                </div>
+            </div>
+            <p>{eventfullynx.description}</p>
+            <section class="px-8 pb-4">
+                <Link text="" href={"https://www.google.com"} icon={{
+                    name: "github",
+                    side: "right",
+                    attributes: { width: "60", height: "60", fill: "white" },
+                }}  />
+                <Link text="" href={"https://www.google.com"} icon={{
+                    name: "instagram",
+                    side: "right",
+                    attributes: { width: "60", height: "60", stroke: "white" },
+                }}  />
+                <Link text="" href={"https://www.google.com"} icon={{
+                    name: "discord",
+                    side: "right",
+                    attributes: { width: "60", height: "60", stroke: "white" },
+                }}  />
+            </section>
+        </article>
+    </section>
+</MainLayout>
+
+
+
+
+<style>
+    @keyframes vertical-scroll {
+        0% {
+            transform: translate(0, 0);
+        }
+        100% {
+            transform: translate(0, -100%);
+        }
+    }
+    article{
+        @apply container w-[49%]
+    }
+    h2{
+        height: fit-content;
+        font-size: 5.2rem;
+        line-height: 1;
+    }
+
+    p{
+        @apply pl-10 pr-28 pt-6 pb-4
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const listContainer = document.getElementById('list-container');
+        const list = document.getElementById('list');
+        const items = Array.from(list.children);
+        let selectedIndex = 0;
+        let isMouseOver = false;
+
+        const updateSelection = () => {
+            items.forEach((item, index) => {
+                item.classList.toggle('selected', index === selectedIndex);
+                item.textContent = (index === selectedIndex ? '> ' : '- ') + item.textContent.replace(/^[-> ]/, '');
+            });
+        };
+
+        const handleKeyDown = (event) => {
+            if (isMouseOver) {
+                event.preventDefault(); // Prevent default scrolling behavior
+                if (event.key === 'ArrowDown') {
+                    selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+                    updateSelection();
+                } else if (event.key === 'ArrowUp') {
+                    selectedIndex = Math.max(selectedIndex - 1, 0);
+                    updateSelection();
+                }
+            }
+        };
+
+        updateSelection(); // Initialize the list with the first item selected
+
+        // Event listeners for mouse enter and leave
+        listContainer.addEventListener('mouseenter', () => {
+            isMouseOver = true;
+        });
+
+        listContainer.addEventListener('mouseleave', () => {
+            isMouseOver = false;
+        });
+
+        // Event listener for keydown
+        document.addEventListener('keydown', handleKeyDown);
+    });
+</script>
