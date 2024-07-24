@@ -1,7 +1,6 @@
 ---
 title: Why delta works 
 author: Shunji
-category: Symbols
 image: {
     src: "/images/blogImages/peashooter.jpg",
     alt: "Peashooter",

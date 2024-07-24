@@ -9,6 +9,9 @@ module.exports = {
 			'november' : ['November'],
 		},
 		extend: {
+			borderWidth: {
+				'def-width': "var(--def-width)",
+			},
 			colors: {
 				'bg-color': "var(--bg-color)",
 				'text-primary-color': "var(--text-primary-color)",

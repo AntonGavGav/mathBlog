@@ -7,6 +7,9 @@ import MainLayout from '../layouts/MainLayout.astro';
 import creatorData from "../ts/creatorData"
 //component import
 import Link from "../components/Link.astro";
+import QuickActions from "../components/pageParts/QuickActions.astro";
+//pageParts
+import CreatorLinks from "../components/pageParts/CreatorLinks.astro";
 
 
 const shuniji = creatorData["Shuniji"];
@@ -14,13 +17,13 @@ const eventfullynx = creatorData["EventfulLynx915"];
 ---
 
 <MainLayout title="About Creators">
-    <section class="mt-12 container w-full pb-10" id="list-container">
-        <div
+    <section class="mt-12 container w-full pb-10" id="gamified-list-container">
+        <header
             class="w-full h-10 chessboard-bg"
             style={{"backgroundSize": "20px 20px"}}
-        ></div>
+        ></header>
         <h1 class="main-text font-november text-center mt-12 pb-4">ABOUT US</h1>
-        <ul id="list" class="px-8 [&>li]:mb-2">
+        <ul id="gamified-list" class="px-8 [&>li]:mb-2">
             <li data-id="0">some text about us that can be pretty long so we gotta do it carefully cause who knows how long it will be and that is what i be testing right at the moment so I can be sure</li>
             <li data-id="1">in my professional opinion it looks pretty decent and I would keep it that way</li>
             <li data-id="2">third part about something small I guess</li>
@@ -31,8 +34,8 @@ const eventfullynx = creatorData["EventfulLynx915"];
     </section>
 
     <section class="flex justify-between mt-5">
-        <article>
-            <div class="flex justify-between items-center pt-12 px-10 relative">
+        <article class="container">
+            <div class="creator-presentation-container">
                 <div class="h-[330px] w-[16%] overflow-hidden">
                     <h2
                             style="transform: scale(-1); writing-mode: vertical-lr;"
@@ -45,68 +48,39 @@ const eventfullynx = creatorData["EventfulLynx915"];
                         alt = "Shuniji pic"
                 />
             </div>
-            <p>{shuniji.description}</p>
-            <section class="px-8 pb-4">
-                <Link text="" href={"https://www.google.com"} icon={{
-                    name: "github",
-                    side: "right",
-                    attributes: { width: "60", height: "60", fill: "white" },
-                }}  />
-                <Link text="" href={"https://www.google.com"} icon={{
-                    name: "instagram",
-                    side: "right",
-                    attributes: { width: "60", height: "60", stroke: "white" },
-                }}  />
-                <Link text="" href={"https://www.google.com"} icon={{
-                    name: "discord",
-                    side: "right",
-                    attributes: { width: "60", height: "60", stroke: "white" },
-                }}  />
-            </section>
+            <p class="description">{shuniji.description}</p>
+            <CreatorLinks
+                githubUrl = {shuniji.urls.github}
+                instagramUrl = {shuniji.urls.instagram}
+                twitterUrl = {shuniji.urls.twitter}
+            />
         </article>
-        <article>
-            <div class="flex justify-between items-center pt-12 px-10 relative">
+        <article class="container">
+            <div class="creator-presentation-container">
                 <Image
                         src={eventfullynx.imagePath}
                         width={330}
                         height={330}
                         alt = "EventfulLynx pic"
                 />
-                <div class="h-[330px] w-[16%] overflow-hidden inline-block">
+                <div class="h-[330px] w-[17%] overflow-hidden inline-block">
                     <h2
-                        class="inline-block"
-                        style="writing-mode: vertical-rl;
-                        animation: vertical-scroll 10s infinite linear normal;
-                       "
+                        class = "scrollable-text"
                     >{eventfullynx.name.toUpperCase()} </h2>
                     <h2
-                            class="inline-block mt-[-6px]"
-                            style="writing-mode: vertical-rl;
-                        animation: vertical-scroll 10s infinite linear normal;
-                     "
+                            class="scrollable-text mt-[-6px]"
                     >{eventfullynx.name.toUpperCase()}</h2>
                 </div>
             </div>
-            <p>{eventfullynx.description}</p>
-            <section class="px-8 pb-4">
-                <Link text="" href={"https://www.google.com"} icon={{
-                    name: "github",
-                    side: "right",
-                    attributes: { width: "60", height: "60", fill: "white" },
-                }}  />
-                <Link text="" href={"https://www.google.com"} icon={{
-                    name: "instagram",
-                    side: "right",
-                    attributes: { width: "60", height: "60", stroke: "white" },
-                }}  />
-                <Link text="" href={"https://www.google.com"} icon={{
-                    name: "discord",
-                    side: "right",
-                    attributes: { width: "60", height: "60", stroke: "white" },
-                }}  />
-            </section>
+            <p class="description">{eventfullynx.description}</p>
+            <CreatorLinks
+                githubUrl = {eventfullynx.urls.github}
+                instagramUrl = {eventfullynx.urls.instagram}
+                twitterUrl = {eventfullynx.urls.twitter}
+            />
         </article>
     </section>
+    <QuickActions />
 </MainLayout>
 
 
@@ -122,30 +96,37 @@ const eventfullynx = creatorData["EventfulLynx915"];
         }
     }
     article{
-        @apply container w-[49%]
+        @apply w-[49%]
+    }
+    .creator-presentation-container{
+        @apply flex justify-between items-center pt-12 px-10 relative
     }
     h2{
         height: fit-content;
         font-size: 5.2rem;
         line-height: 1;
     }
+    .scrollable-text{
+        display:inline-block;
+        writing-mode: vertical-rl;
+        animation: vertical-scroll 10s infinite linear normal;
+    }
 
-    p{
+    .description{
         @apply pl-10 pr-28 pt-6 pb-4
     }
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const listContainer = document.getElementById('list-container');
-        const list = document.getElementById('list');
+        const listContainer = document.getElementById('gamified-list-container');
+        const list = document.getElementById('gamified-list');
         const items = Array.from(list.children);
         let selectedIndex = 0;
         let isMouseOver = false;
 
         const updateSelection = () => {
             items.forEach((item, index) => {
-                item.classList.toggle('selected', index === selectedIndex);
                 item.textContent = (index === selectedIndex ? '> ' : '- ') + item.textContent.replace(/^[-> ]/, '');
             });
         };
@@ -163,9 +144,8 @@ const eventfullynx = creatorData["EventfulLynx915"];
             }
         };
 
-        updateSelection(); // Initialize the list with the first item selected
+        updateSelection();
 
-        // Event listeners for mouse enter and leave
         listContainer.addEventListener('mouseenter', () => {
             isMouseOver = true;
         });
@@ -174,7 +154,6 @@ const eventfullynx = creatorData["EventfulLynx915"];
             isMouseOver = false;
         });
 
-        // Event listener for keydown
         document.addEventListener('keydown', handleKeyDown);
     });
 </script>

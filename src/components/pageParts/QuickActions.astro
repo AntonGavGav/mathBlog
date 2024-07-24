@@ -9,7 +9,7 @@ const modifiedNavData = navData.filter((data) => data.path !== Astro.url.pathnam
 <section class="relative mt-3">
     <h3 class="h3 mb-2">Quick actions:</h3>
     <div class="h-fit w-full inline-flex justify-between gap-4">
-        <div class="w-[65%] inline-flex">
+        <div class="w-full gap-4 inline-flex">
         {modifiedNavData.map((item) => (
             <Link
                     href={item.path}
@@ -22,6 +22,5 @@ const modifiedNavData = navData.filter((data) => data.path !== Astro.url.pathnam
             />
         ))}
         </div>
-        <Search class="w-[35%] container" />
     </div>
 </section>

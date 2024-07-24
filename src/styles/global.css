@@ -2,11 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 :root {
+    /* colors */
     --bg-color: #141313;
     --text-primary-color: #f1f1f1;
     --text-secondary-color: #cfcfcf;
     --dark-accent: #0d0b0b;
     --light-accent: #f1f1f1;
+
+    /* border */
+    --def-width: 3px;
 }
 
 @layer base{
@@ -46,7 +50,7 @@
 
     /*global classes*/
     .container{
-        @apply border-2 bg-dark-accent border-light-accent
+        @apply border-def-width bg-dark-accent border-light-accent
     }
     .main-text{
         @apply text-[7.5rem] leading-tight font-daydream
@@ -60,10 +64,13 @@
     .h3{
         @apply text-2xl font-bold
     }
+
+
     .chessboard-bg{
+        /* in order to change a size of bg pixels add backgroundSize to an object */
         background:
                 repeating-conic-gradient(var(--light-accent) 0% 25%, transparent 0% 50%)
-                50% center
+                50% / 10px 10px
     }
 
 }

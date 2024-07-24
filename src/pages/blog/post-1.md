@@ -1,7 +1,6 @@
 ---
 title: Math behind Lateralus
 author: EventfulLynx915
-category: Music
 image: {
     src: "/images/blogImages/Lateralus.jpg",
     alt: "Lateralus cover",

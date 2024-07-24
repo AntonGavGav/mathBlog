@@ -1,8 +1,8 @@
 ---
-//utils import
-import { formatBlogPosts } from "../ts/utils";
 //libraries import
 import { Image } from 'astro:assets';
+//utils import
+import { formatBlogPosts } from "../ts/utils";
 //layouts import
 import MainLayout from '../layouts/MainLayout.astro';
 //component import
@@ -55,13 +55,13 @@ const formatedPosts = formatBlogPosts(allPosts, {
 <style>
 	.scrollbar {
 		--sb-track-color: var(--bg-color);
-		--sb-thumb-color: #ffffff;
-		--sb-size: 10px;
+		--sb-thumb-color: var(--light-accent);
+		--sb-size: 12px;
 	}
 
 	.scrollbar::-webkit-scrollbar {
 		width: var(--sb-size);
-		height: 14px;
+		height: var(--sb-size);
 	}
 
 	.scrollbar::-webkit-scrollbar-track {

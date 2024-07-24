@@ -1,6 +1,7 @@
 ---
 //component import
 import Link from "./Link.astro";
+import Icon from "./Icon.astro";
 //utils import
 import { formatDate } from "../ts/utils.ts"
 
@@ -14,7 +15,6 @@ const { url, frontmatter} = Astro.props as Props;
 interface Frontmatter{
     title: string,
     author: string,
-    category: string,
     image: {
         src: string,
         alt: string,
@@ -26,22 +26,54 @@ const {
     date,
     author,
     image,
-    category
 } = frontmatter as Frontmatter;
+
+const attributes = { width: "44", height: "44", stroke: "white" };
 ---
 
-<article class="w-[43rem] h-[27rem] flex-none relative">
-    <div class="absolute min-w-full container p-2 flex items-center justify-between">
-        <div class="flex-grow basis-0"><Link  text = {category} href="/category" isFilled ={true}/></div>
-        <p>{formatDate(date)}</p>
-        <p class="flex-grow basis-0 text-right">{author}</p>
+<article class="container">
+    <header
+        class="w-full chessboard-bg flex items-center border-b-def-width"
+        style={{"backgroundSize": "16px 16px"}}
+    >
+        <Link class="bg-bg-color w-fit m-auto text-2xl no-padding"
+            text={formatDate(date)}
+            href={"no link yet"}
+        />
+    </header>
+    <div class="w-[90%] mx-auto mt-4">
+        <a href={url}
+           class="link-image"
+           style={`background-image: url(${image.src});`}
+        ></a>
+        <Link class="blog-title" text={title} href={url} />
+
+        <section class="pb-4 flex gap-4 items-center">
+            <Icon icon="clock" {...attributes}/>
+            <p>15m</p>
+            <div class="ml-8">
+                <h4 class="font-semibold leading-none">written by:</h4>
+                <p>{author}</p>
+            </div>
+        </section>
     </div>
-    <a href={url}
-       style={`background-image: url(${image.src}); background-repeat: no-repeat; background-size: cover; background-position: center;`}
-       class="block w-full h-full"
-    ></a>
-    <p class="h3 container py-3 px-6 absolute bottom-0 w-[90%]">
-        {title}
-    </p>
 </article>
 
+
+
+<style>
+    article{
+        @apply w-[40rem] flex-none
+    }
+    .link-image{
+        display: block;
+        width: 100%;
+        aspect-ratio: 16/9;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+    .blog-title{
+        @apply text-[2.8rem] leading-none truncate py-4;
+    }
+</style>
