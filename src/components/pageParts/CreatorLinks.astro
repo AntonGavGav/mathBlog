@@ -1,0 +1,29 @@
+---
+import Link from "../Link.astro";
+
+interface Props{
+    githubUrl: string,
+    instagramUrl: string,
+    twitterUrl: string,
+}
+
+const { githubUrl, instagramUrl, twitterUrl }= Astro.props as Props;
+---
+
+<section class="px-8 pb-4">
+    <Link text="" href={githubUrl} icon={{
+        name: "github",
+        side: "right",
+        attributes: { width: "60", height: "60", fill: "white" },
+    }}  />
+    <Link text="" href={instagramUrl} icon={{
+        name: "instagram",
+        side: "right",
+        attributes: { width: "60", height: "60", stroke: "white" },
+    }}  />
+    <Link text="" href={twitterUrl} icon={{
+        name: "twitter",
+        side: "right",
+        attributes: { width: "60", height: "60", stroke: "white" },
+    }}  />
+</section>

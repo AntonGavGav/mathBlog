@@ -1,8 +1,25 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
+	mode: 'jit',
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
-		extend: {},
+		fontFamily:{
+			'sans': ['Videotype', 'sans-serif'],
+			'daydream': ['Daydream'],
+			'november' : ['November'],
+		},
+		extend: {
+			borderWidth: {
+				'def-width': "var(--def-width)",
+			},
+			colors: {
+				'bg-color': "var(--bg-color)",
+				'text-primary-color': "var(--text-primary-color)",
+				'text-secondary-color': "var(--text-secondary-color)",
+				'dark-accent': 'var(--dark-accent)',
+				'light-accent': 'var(--light-accent)',
+			}
+		},
 	},
 	plugins: [],
 }

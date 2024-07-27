@@ -1,13 +1,83 @@
 ---
-import Layout from '../layouts/Layout.astro';
+//libraries import
+import { Image } from 'astro:assets';
+//utils import
+import { formatBlogPosts } from "../ts/utils";
+//layouts import
+import MainLayout from '../layouts/MainLayout.astro';
+//component import
+import QuickActions from '../components/pageParts/QuickActions.astro';
+import PostCard from "../components/PostCard.astro"
+
+interface Post {
+	frontmatter: {
+		date: string;
+		draft?: boolean;
+	};
+	[key: string]: any; // other properties of the post object
+}
+
+
+const limit = 6;
+const allPosts:Post[] = await Astro.glob("./blog/**/*.md");// /**/ grabs stuff in subdirectories
+const formatedPosts = formatBlogPosts(allPosts, {
+	limit: limit,
+});
+
 ---
 
-<Layout title="Welcome to Astro.">
-	<main>
-		abcdefghijklmnopqrstuvwxyz
-	</main>
-</Layout>
+<MainLayout title="Math blog">
+	<section class="mt-4 flex gap-[5%]">
+		<div class="w-[50%] flex flex-col justify-center z-[1]">
+			<h1 class="main-text">Math Blog</h1>
+			<h2 class="text-text-secondary-color mt-3 h2">Created by Shunji and EventfulLynx915</h2>
+		</div>
+		<Image
+			width={400}
+			height={400}
+			src="/images/tool.png"
+			alt="sorry, I was forced to put it here"
+			class="w-[45%] aspect-square object-cover object-top z-0"
+			loading="eager"
+		/>
+	</section>
+	<QuickActions />
+	<section class="mt-14">
+		<h3 class="h1 mb-5">Last {limit} posts:</h3>
+		<div class="scrollbar w-full pb-6 flex flex-nowrap gap-10 overflow-x-auto">
+			{
+				formatedPosts.map((post: Post) => <PostCard url = {post.url} frontmatter = {post.frontmatter} />)
+			}
+		</div>
+	</section>
+</MainLayout>
 
 <style>
+	.scrollbar {
+		--sb-track-color: var(--bg-color);
+		--sb-thumb-color: var(--light-accent);
+		--sb-size: 12px;
+	}
 
+	.scrollbar::-webkit-scrollbar {
+		width: var(--sb-size);
+		height: var(--sb-size);
+	}
+
+	.scrollbar::-webkit-scrollbar-track {
+		background: var(--sb-track-color);
+		border: 2px solid var(--sb-thumb-color);
+		border-radius: 1px;
+	}
+
+	.scrollbar::-webkit-scrollbar-thumb {
+		background: var(--sb-thumb-color);
+	}
+
+	@supports not selector(::-webkit-scrollbar) {
+		body {
+			scrollbar-color: var(--sb-thumb-color)
+			var(--sb-track-color);
+		}
+	}
 </style>

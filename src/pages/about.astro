@@ -1,0 +1,159 @@
+---
+//lib import
+import { Image } from 'astro:assets';
+//layouts import
+import MainLayout from '../layouts/MainLayout.astro';
+//data import
+import creatorData from "../ts/creatorData"
+//component import
+import Link from "../components/Link.astro";
+import QuickActions from "../components/pageParts/QuickActions.astro";
+//pageParts
+import CreatorLinks from "../components/pageParts/CreatorLinks.astro";
+
+
+const shuniji = creatorData["Shuniji"];
+const eventfullynx = creatorData["EventfulLynx915"];
+---
+
+<MainLayout title="About Creators">
+    <section class="mt-12 container w-full pb-10" id="gamified-list-container">
+        <header
+            class="w-full h-10 chessboard-bg"
+            style={{"backgroundSize": "20px 20px"}}
+        ></header>
+        <h1 class="main-text font-november text-center mt-12 pb-4">ABOUT US</h1>
+        <ul id="gamified-list" class="px-8 [&>li]:mb-2">
+            <li data-id="0">some text about us that can be pretty long so we gotta do it carefully cause who knows how long it will be and that is what i be testing right at the moment so I can be sure</li>
+            <li data-id="1">in my professional opinion it looks pretty decent and I would keep it that way</li>
+            <li data-id="2">third part about something small I guess</li>
+            <li data-id="3">We gotta keep a big amount of this parts cause I like the way it looks</li>
+            <li data-id="3">Big amount of text, we can come up with something for sure to write here</li>
+            <li data-id="3">And maybe one more for just some styling</li>
+        </ul>
+    </section>
+
+    <section class="flex justify-between mt-5">
+        <article class="container">
+            <div class="creator-presentation-container">
+                <div class="h-[330px] w-[16%] overflow-hidden">
+                    <h2
+                            style="transform: scale(-1); writing-mode: vertical-lr;"
+                    >{shuniji.name.toUpperCase()}</h2>
+                </div>
+                <Image
+                        src={shuniji.imagePath}
+                        width={330}
+                        height={330}
+                        alt = "Shuniji pic"
+                />
+            </div>
+            <p class="description">{shuniji.description}</p>
+            <CreatorLinks
+                githubUrl = {shuniji.urls.github}
+                instagramUrl = {shuniji.urls.instagram}
+                twitterUrl = {shuniji.urls.twitter}
+            />
+        </article>
+        <article class="container">
+            <div class="creator-presentation-container">
+                <Image
+                        src={eventfullynx.imagePath}
+                        width={330}
+                        height={330}
+                        alt = "EventfulLynx pic"
+                />
+                <div class="h-[330px] w-[17%] overflow-hidden inline-block">
+                    <h2
+                        class = "scrollable-text"
+                    >{eventfullynx.name.toUpperCase()} </h2>
+                    <h2
+                            class="scrollable-text mt-[-6px]"
+                    >{eventfullynx.name.toUpperCase()}</h2>
+                </div>
+            </div>
+            <p class="description">{eventfullynx.description}</p>
+            <CreatorLinks
+                githubUrl = {eventfullynx.urls.github}
+                instagramUrl = {eventfullynx.urls.instagram}
+                twitterUrl = {eventfullynx.urls.twitter}
+            />
+        </article>
+    </section>
+    <QuickActions />
+</MainLayout>
+
+
+
+
+<style>
+    @keyframes vertical-scroll {
+        0% {
+            transform: translate(0, 0);
+        }
+        100% {
+            transform: translate(0, -100%);
+        }
+    }
+    article{
+        @apply w-[49%]
+    }
+    .creator-presentation-container{
+        @apply flex justify-between items-center pt-12 px-10 relative
+    }
+    h2{
+        height: fit-content;
+        font-size: 5.2rem;
+        line-height: 1;
+    }
+    .scrollable-text{
+        display:inline-block;
+        writing-mode: vertical-rl;
+        animation: vertical-scroll 10s infinite linear normal;
+    }
+
+    .description{
+        @apply pl-10 pr-28 pt-6 pb-4
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const listContainer = document.getElementById('gamified-list-container');
+        const list = document.getElementById('gamified-list');
+        const items = Array.from(list.children);
+        let selectedIndex = 0;
+        let isMouseOver = false;
+
+        const updateSelection = () => {
+            items.forEach((item, index) => {
+                item.textContent = (index === selectedIndex ? '> ' : '- ') + item.textContent.replace(/^[-> ]/, '');
+            });
+        };
+
+        const handleKeyDown = (event) => {
+            if (isMouseOver) {
+                event.preventDefault(); // Prevent default scrolling behavior
+                if (event.key === 'ArrowDown') {
+                    selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+                    updateSelection();
+                } else if (event.key === 'ArrowUp') {
+                    selectedIndex = Math.max(selectedIndex - 1, 0);
+                    updateSelection();
+                }
+            }
+        };
+
+        updateSelection();
+
+        listContainer.addEventListener('mouseenter', () => {
+            isMouseOver = true;
+        });
+
+        listContainer.addEventListener('mouseleave', () => {
+            isMouseOver = false;
+        });
+
+        document.addEventListener('keydown', handleKeyDown);
+    });
+</script>

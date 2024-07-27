@@ -1,0 +1,39 @@
+---
+import { getSVG } from "../ts/utils";
+
+
+
+export interface Props {
+    icon: string,
+    isInverted?: boolean,
+    classes?: string,
+}
+
+const {
+    icon,
+    isInverted = false,
+    classes,
+    ...attributes
+} = Astro.props as Props;
+
+const { attributes: baseAttributes, innerHTML } = await getSVG(icon);
+
+const svgAttributes = { ...baseAttributes, ...attributes };
+
+
+---
+
+<svg class:list={[
+    classes,
+    { inverted: isInverted }
+]}
+    {...svgAttributes}
+    set:html={innerHTML}
+></svg>
+
+<style>
+    .inverted{
+        -webkit-filter: invert(100%);
+        filter: invert(100%);
+    }
+</style>
