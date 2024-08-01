@@ -1,6 +1,7 @@
 ---
 //libraries import
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 //utils import
 import { formatBlogPosts } from "../ts/utils";
 //layouts import
@@ -9,20 +10,13 @@ import MainLayout from '../layouts/MainLayout.astro';
 import QuickActions from '../components/pageParts/QuickActions.astro';
 import PostCard from "../components/PostCard.astro"
 
-interface Post {
-	frontmatter: {
-		date: string;
-		draft?: boolean;
-	};
-	[key: string]: any; // other properties of the post object
-}
 
 
 const limit = 6;
-const allPosts:Post[] = await Astro.glob("./blog/**/*.md");// /**/ grabs stuff in subdirectories
-const formatedPosts = formatBlogPosts(allPosts, {
-	limit: limit,
-});
+const blogEntries = await getCollection("blog");
+// const formatedPosts = formatBlogPosts(allPosts, {
+// 	limit: limit,
+// });
 
 ---
 

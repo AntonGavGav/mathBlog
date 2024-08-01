@@ -1,6 +1,6 @@
 ---
 title: Why delta works 
-author: Shunji
+author: Shuniji
 image: {
     src: "/images/blogImages/peashooter.jpg",
     alt: "Peashooter",
