@@ -5,7 +5,7 @@ import type { CollectionEntry } from "astro:content";
 import Link from "./Link.astro";
 import Icon from "./Icon.astro";
 //utils import
-import { formatDate } from "../ts/utils.ts"
+import { formatDate, getReadingTime } from "../ts/utils.ts"
 
 
 interface Props {
@@ -16,6 +16,8 @@ const { post } = Astro.props as Props;
 
 const url = `/blog/${post.slug}`;
 const { title, author, date, image } = post.data;
+
+const readingTime = getReadingTime(post.body);
 
 const attributes = { width: "44", height: "44", stroke: "white" };
 ---
@@ -39,7 +41,7 @@ const attributes = { width: "44", height: "44", stroke: "white" };
 
         <section class="pb-4 flex gap-4 items-center">
             <Icon icon="clock" {...attributes}/>
-            <p>15m</p>
+            <p>{readingTime}</p>
             <div class="ml-8">
                 <h4 class="font-semibold leading-none">written by:</h4>
                 <p>{author}</p>

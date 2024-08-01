@@ -1,5 +1,11 @@
 import { parse } from "node-html-parser";
+import calculateReadingTime from 'reading-time';
+import { fromMarkdown } from 'mdast-util-from-markdown';
+import { toString } from 'mdast-util-to-string';
 import type { CollectionEntry } from "astro:content";
+
+
+
 
 interface SVGAttributes {
     [key: string]: string;
@@ -97,4 +103,18 @@ export function formatBlogPosts(posts: CollectionEntry<'blog'>[], {
 
 export function formatDate(date:string){
     return new Date(date).toLocaleDateString('en-US', {timeZone: "UTC",});
+}
+
+
+export function getReadingTime(text: string): string | undefined {
+    if(!text || !text.length) return undefined;
+    try {
+        const { minutes } = calculateReadingTime(toString(fromMarkdown(text)));
+        if (minutes && minutes > 0) {
+            return `${Math.ceil(minutes)}m`;
+        }
+        return undefined;
+    } catch (e) {
+        return undefined;
+    }
 }
