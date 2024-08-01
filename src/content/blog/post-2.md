@@ -1,10 +1,9 @@
 ---
-title: Why delta works 
+title: Why delta works
 author: Shuniji
-image: {
-    src: "/images/blogImages/peashooter.jpg",
-    alt: "Peashooter",
-}
+image:
+  src: "/images/blogImages/peashooter.jpg"
+  alt: "Peashooter"
 date: 2022-12-20
 ---
 

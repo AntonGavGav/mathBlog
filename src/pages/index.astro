@@ -40,7 +40,7 @@ const blogEntries = await getCollection("blog");
 		<h3 class="h1 mb-5">Last {limit} posts:</h3>
 		<div class="scrollbar w-full pb-6 flex flex-nowrap gap-10 overflow-x-auto">
 			{
-				formatedPosts.map((post: Post) => <PostCard url = {post.url} frontmatter = {post.frontmatter} />)
+				blogEntries.map((post) => <PostCard post={post} />)
 			}
 		</div>
 	</section>

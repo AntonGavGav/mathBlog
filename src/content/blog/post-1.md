@@ -1,12 +1,12 @@
 ---
 title: Math behind Lateralus
 author: EventfulLynx915
-image: {
-    src: "/images/blogImages/Lateralus.jpg",
-    alt: "Lateralus cover",
-}
+image:
+  src: "/images/blogImages/Lateralus.jpg"
+  alt: "Lateralus cover"
 date: 2022-12-20
 ---
+
 
 Nisi duis ex aliqua eu officia eiusmod duis magna pariatur. Irure laborum qui aliqua nulla esse cillum laborum aliquip nulla elit. Id id Lorem duis irure cillum culpa. Nulla sint et aliqua velit do. Nulla sit sit proident consectetur enim ullamco aliqua in reprehenderit ullamco officia.
 
