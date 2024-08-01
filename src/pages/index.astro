@@ -12,12 +12,24 @@ import PostCard from "../components/PostCard.astro"
 
 
 
-const limit = 6;
+const limit = 2;
 const blogEntries = await getCollection("blog");
-// const formatedPosts = formatBlogPosts(allPosts, {
-// 	limit: limit,
-// });
+const formatedPosts = formatBlogPosts(blogEntries, {
+	limit: limit,
+});
 
+
+function getTextBasedOnLimit(): string{
+	if(limit == 1){
+		return "Last post:"
+	}
+	else if(limit > formatedPosts.length){
+		return `Last ${formatedPosts.length} posts:`;
+	}
+	else{
+		return `Last ${limit} posts:`;
+	}
+}
 ---
 
 <MainLayout title="Math blog">
@@ -37,10 +49,10 @@ const blogEntries = await getCollection("blog");
 	</section>
 	<QuickActions />
 	<section class="mt-14">
-		<h3 class="h1 mb-5">Last {limit} posts:</h3>
+		<h3 class="h1 mb-5">{getTextBasedOnLimit()}</h3>
 		<div class="scrollbar w-full pb-6 flex flex-nowrap gap-10 overflow-x-auto">
 			{
-				blogEntries.map((post) => <PostCard post={post} />)
+				formatedPosts.map((post) => <PostCard post={post} />)
 			}
 		</div>
 	</section>
