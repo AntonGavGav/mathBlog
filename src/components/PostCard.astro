@@ -14,7 +14,7 @@ interface Props {
 
 const { post } = Astro.props as Props;
 
-const url = post.slug;
+const url = `/blog/${post.slug}`;
 const { title, author, date, image } = post.data;
 
 const attributes = { width: "44", height: "44", stroke: "white" };
