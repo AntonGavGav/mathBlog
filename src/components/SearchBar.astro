@@ -1,0 +1,192 @@
+---
+//implement search logic later
+
+//components import
+import Icon from "./Icon.astro";
+
+
+
+const attributes = {width: "37", height: "37", fill: "white"};
+---
+
+<template id="listItemTemplate">
+    <a id="title"></a>
+    <p id="author"></p>
+    <p id="date"></p>
+</template>
+
+<template id="loaderTemplate">
+    <li id="loader-parent">
+        <div id="loader"></div>
+    </li>
+</template>
+
+
+<aside class="mt-9">
+    <div class="search-bar">
+        <div class="absolute inset-y-0 start-3 flex items-center ps-3 pointer-events-none">
+            <Icon icon="search" {...attributes} />
+        </div>
+        <input
+            type="text"
+            required
+            minlength="3"
+            maxlength="30"
+            name=""
+            placeholder="Search smth..."
+            class="search-input"
+            id="search"
+            autocomplete="off"
+        />
+    </div>
+    <p id="searchReadout"></p>
+    <ul id="searchResultList">
+
+    </ul>
+</aside>
+
+<style>
+    @import '../styles/loader.css';
+    #loader-parent{
+        position:relative;
+        width:55px;
+        height:55px;
+    }
+    #loader{
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        left: 50%;
+        top: 50%;
+        transform:scale(0.8) translate(-50%, -50%);
+    }
+
+    .search-bar{
+        @apply relative w-full
+    }
+    .search-input{
+        @apply block w-full text-4xl font-normal h-full p-4 ps-20 bg-dark-accent border-def-width focus:border-light-accent focus:rounded-none
+    }
+</style>
+
+<script>
+    //lib import
+    import DOMPurify from "dompurify";
+    import Fuse from "fuse.js";
+    import {HTMLElement, Node} from "node-html-parser";
+
+    let SEARCH_DATA;
+    let FUSE_INSTANCE;
+    const FUSE_OPTIONS = {
+        includeScore: true,
+        shouldSort: true,
+        threshold: .5,
+        keys: [
+            {
+                name: "title",
+                weight: 0.9,
+            },
+            {
+                name: "date",
+                weight: 0.1,
+            },
+        ],
+    }
+
+    //templates
+    const loaderTemplate = document.getElementById("loaderTemplate") as HTMLTemplateElement;
+    const loaderTemplateContent = loaderTemplate.content;
+
+    const listItemTemplate = document.getElementById("listItemTemplate") as HTMLTemplateElement;
+    const listItemTemplateContent = listItemTemplate.content;
+
+    //search related
+    const search = document.getElementById("search") as HTMLInputElement;
+    const searchReadout = document.getElementById("searchReadout") as HTMLElement;
+    const searchResultList = document.getElementById("searchResultList") as HTMLElement;
+
+
+
+
+    //functions
+    export function formatDate(date:string){
+        return new Date(date).toLocaleDateString('en-US', {timeZone: "UTC",});
+    }
+
+    function updateSearchReadout(searchTerm: string):void{
+        searchReadout.textContent = searchTerm
+        ? `Search results for "${searchTerm}"`
+        : "";
+    }
+    function runSpinner(){
+        const loaderTemplateClone = loaderTemplateContent.cloneNode(true) as HTMLElement;
+        searchResultList.innerHTML = '';
+        searchResultList.appendChild(loaderTemplateClone);
+    }
+    function createListItem(title, author, date, slug): HTMLElement{
+        const template = listItemTemplateContent.cloneNode(true) as HTMLElement;
+
+        const linkElement = template.querySelector("a");
+        linkElement.setAttribute("href", `/blog/${slug}`);
+        linkElement.textContent = title;
+
+        const authorElement = template.getElementById("author");
+        authorElement.textContent = author;
+
+        const dateElement = template.getElementById("date");
+        dateElement.textContent = date;
+
+        return template;
+    }
+
+    function fillOutResultList(results):void{
+        if(results.length == 0){
+            searchResultList.innerHTML = "No results found...";
+            return;
+        }
+        searchResultList.innerHTML = "";
+        const fragment = document.createDocumentFragment() as HTMLElement;
+        results.map((result) => {
+            const { title, author, date, slug } = result.item;
+            const formattedDate = formatDate(date);
+            const listItem = createListItem(title, author, formattedDate, slug);
+            fragment.appendChild(listItem);
+        });
+        searchResultList.appendChild(fragment);
+    }
+
+    async function fetchSearchResults(term: string){
+        if(term.length === 0){
+            searchResultList.innerHTML = "";
+            return;
+        }
+        runSpinner();
+        if(!SEARCH_DATA){
+            try{
+                const res = await fetch("/endpoints/search_data.json")
+                if(!res.ok){
+                    throw new Error("fetched res is not ok");
+                }
+                SEARCH_DATA = await res.json();
+            }
+            catch(e){
+                console.error(e);
+            }
+        }
+        //creating a Fuse instance
+        if(SEARCH_DATA && !FUSE_INSTANCE){
+            FUSE_INSTANCE = new Fuse(SEARCH_DATA, FUSE_OPTIONS);
+        }
+
+        const searchResult = FUSE_INSTANCE.search(term);
+        fillOutResultList(searchResult);
+    }
+
+
+    //event listeners
+    search.addEventListener("input", ():void => {
+        const searchTerm:string = DOMPurify.sanitize(search.value);
+        updateSearchReadout(searchTerm);
+        fetchSearchResults(searchTerm);
+    })
+</script>
