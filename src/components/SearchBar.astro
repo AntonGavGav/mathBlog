@@ -1,10 +1,6 @@
 ---
-//implement search logic later
-
 //components import
 import Icon from "./Icon.astro";
-
-
 
 const attributes = {width: "37", height: "37", fill: "white"};
 ---
@@ -73,7 +69,7 @@ const attributes = {width: "37", height: "37", fill: "white"};
     //lib import
     import DOMPurify from "dompurify";
     import Fuse from "fuse.js";
-    import {HTMLElement, Node} from "node-html-parser";
+    import {HTMLElement} from "node-html-parser";
 
     let SEARCH_DATA;
     let FUSE_INSTANCE;
@@ -85,11 +81,7 @@ const attributes = {width: "37", height: "37", fill: "white"};
             {
                 name: "title",
                 weight: 0.9,
-            },
-            {
-                name: "date",
-                weight: 0.1,
-            },
+            }
         ],
     }
 
