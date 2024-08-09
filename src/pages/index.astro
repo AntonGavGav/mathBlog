@@ -1,6 +1,7 @@
 ---
 //libraries import
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 //utils import
 import { formatBlogPosts } from "../ts/utils";
 //layouts import
@@ -9,21 +10,26 @@ import MainLayout from '../layouts/MainLayout.astro';
 import QuickActions from '../components/pageParts/QuickActions.astro';
 import PostCard from "../components/PostCard.astro"
 
-interface Post {
-	frontmatter: {
-		date: string;
-		draft?: boolean;
-	};
-	[key: string]: any; // other properties of the post object
-}
 
 
-const limit = 6;
-const allPosts:Post[] = await Astro.glob("./blog/**/*.md");// /**/ grabs stuff in subdirectories
-const formatedPosts = formatBlogPosts(allPosts, {
+const limit = 4;
+const blogEntries = await getCollection("blog");
+const formatedPosts = formatBlogPosts(blogEntries, {
 	limit: limit,
 });
 
+
+function getTextBasedOnLimit(): string{
+	if(limit == 1){
+		return "Last post:"
+	}
+	else if(limit > formatedPosts.length){
+		return `Last ${formatedPosts.length} posts:`;
+	}
+	else{
+		return `Last ${limit} posts:`;
+	}
+}
 ---
 
 <MainLayout title="Math blog">
@@ -43,10 +49,10 @@ const formatedPosts = formatBlogPosts(allPosts, {
 	</section>
 	<QuickActions />
 	<section class="mt-14">
-		<h3 class="h1 mb-5">Last {limit} posts:</h3>
+		<h3 class="h1 mb-5">{getTextBasedOnLimit()}</h3>
 		<div class="scrollbar w-full pb-6 flex flex-nowrap gap-10 overflow-x-auto">
 			{
-				formatedPosts.map((post: Post) => <PostCard url = {post.url} frontmatter = {post.frontmatter} />)
+				formatedPosts.map((post) => <PostCard post={post} />)
 			}
 		</div>
 	</section>

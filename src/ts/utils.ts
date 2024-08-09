@@ -1,4 +1,11 @@
 import { parse } from "node-html-parser";
+import calculateReadingTime from 'reading-time';
+import { fromMarkdown } from 'mdast-util-from-markdown';
+import { toString } from 'mdast-util-to-string';
+import type { CollectionEntry } from "astro:content";
+
+
+
 
 interface SVGAttributes {
     [key: string]: string;
@@ -45,13 +52,6 @@ export async function getSVG(name: string): Promise<SVGContent> {
 
 
 
-interface Post {
-    frontmatter: {
-        date: string;
-        draft?: boolean;
-    };
-    [key: string]: any; // other properties of the post object
-}
 
 interface FormatBlogPostsOptions {
     filterOutDrafts?: boolean;
@@ -60,20 +60,19 @@ interface FormatBlogPostsOptions {
     limit?: number | undefined;
 }
 
-export function formatBlogPosts(posts: Post[], {
+export function formatBlogPosts(posts: CollectionEntry<'blog'>[], {
     filterOutDrafts = true,
     filterOutFuturePosts = true,
     sortByDate = true,
     limit = undefined
-}: FormatBlogPostsOptions = {}): Post[] {
-
-    const filteredPosts = posts.reduce((accumulator: Post[], post: Post) => {
-        const { date, draft } = post.frontmatter;
+}: FormatBlogPostsOptions = {}): CollectionEntry<'blog'>[] {
+    const filteredPosts:CollectionEntry<'blog'>[] = posts.reduce((accumulator:CollectionEntry<'blog'>[], post) => {
+        const { date } = post.data;
 
         // filter out drafts if true
-        if (filterOutDrafts && draft) {
-            return accumulator;
-        }
+        // if (filterOutDrafts && draft) {
+        //     return accumulator;
+        // }
 
         // filter out future posts if true
         if (filterOutFuturePosts && new Date(date) > new Date()) {
@@ -83,12 +82,11 @@ export function formatBlogPosts(posts: Post[], {
         // add post to accumulator if conditions passed
         accumulator.push(post);
         return accumulator;
-
     }, []);
 
     // sort by date or randomize
     if (sortByDate) {
-        filteredPosts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+        filteredPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
     } else {
         // if we don't want to sort them we will just randomize them
         filteredPosts.sort(() => Math.random() - 0.5);
@@ -105,4 +103,18 @@ export function formatBlogPosts(posts: Post[], {
 
 export function formatDate(date:string){
     return new Date(date).toLocaleDateString('en-US', {timeZone: "UTC",});
+}
+
+
+export function getReadingTime(text: string): string | undefined {
+    if(!text || !text.length) return undefined;
+    try {
+        const { minutes } = calculateReadingTime(toString(fromMarkdown(text)));
+        if (minutes && minutes > 0) {
+            return `${Math.ceil(minutes)}m`;
+        }
+        return undefined;
+    } catch (e) {
+        return undefined;
+    }
 }
