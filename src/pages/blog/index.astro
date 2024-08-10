@@ -1,9 +1,32 @@
 ---
+//lib import
+import {getCollection} from "astro:content";
+//utils import
+import { getPinnedPost } from '../../ts/utils'
 //component import
-import Search from '../../components/SearchBar.astro';
+import Icon from "../../components/Icon.astro";
+import PostCard from "../../components/PostCard.astro";
+import Search from '../../components/SearchWidget.astro';
 //layout import
 import MainLayout from '../../layouts/MainLayout.astro';
+
+const blogEntries = await getCollection("blog");
+const pinnedPost = getPinnedPost(blogEntries);
+
 ---
-<MainLayout>
-    <Search />
+<MainLayout title="Whole Blog">
+    <section class = "mt-8 flex gap-2">
+        <div class="relative h-fit scale-95">
+            <PostCard post={pinnedPost} />
+            <Icon
+                icon="push_pin"
+                width={60}
+                height={60}
+                class="absolute top-[-30px] left-1/2 translate-x-[-100%]"
+            />
+        </div>
+
+        <Search />
+
+    </section>
 </MainLayout>

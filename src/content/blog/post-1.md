@@ -5,6 +5,7 @@ image:
   src: "/images/blogImages/Lateralus.jpg"
   alt: "Lateralus cover"
 date: 2022-12-20
+pinned: true
 ---
 
 

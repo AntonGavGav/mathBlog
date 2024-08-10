@@ -98,6 +98,9 @@ export function formatBlogPosts(posts: CollectionEntry<'blog'>[], {
     }
     return filteredPosts;
 }
+export function getPinnedPost(posts: CollectionEntry<'blog'>[]): CollectionEntry<'blog'> | undefined {
+    return posts.find(post => post.data.pinned);
+}
 
 
 

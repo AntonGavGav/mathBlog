@@ -32,7 +32,7 @@ function getTextBasedOnLimit(): string{
 }
 ---
 
-<MainLayout title="Math blog">
+<MainLayout title="Math Blog">
 	<section class="mt-4 flex gap-[5%]">
 		<div class="w-[50%] flex flex-col justify-center z-[1]">
 			<h1 class="main-text">Math Blog</h1>
@@ -58,32 +58,3 @@ function getTextBasedOnLimit(): string{
 	</section>
 </MainLayout>
 
-<style>
-	.scrollbar {
-		--sb-track-color: var(--bg-color);
-		--sb-thumb-color: var(--light-accent);
-		--sb-size: 12px;
-	}
-
-	.scrollbar::-webkit-scrollbar {
-		width: var(--sb-size);
-		height: var(--sb-size);
-	}
-
-	.scrollbar::-webkit-scrollbar-track {
-		background: var(--sb-track-color);
-		border: 2px solid var(--sb-thumb-color);
-		border-radius: 1px;
-	}
-
-	.scrollbar::-webkit-scrollbar-thumb {
-		background: var(--sb-thumb-color);
-	}
-
-	@supports not selector(::-webkit-scrollbar) {
-		body {
-			scrollbar-color: var(--sb-thumb-color)
-			var(--sb-track-color);
-		}
-	}
-</style>
