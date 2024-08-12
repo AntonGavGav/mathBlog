@@ -1,0 +1,66 @@
+---
+//libraries import
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from "astro:content";
+//utils import
+import { formatDate, getReadingTime } from "../ts/utils.ts"
+
+
+interface Props {
+    post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props as Props;
+
+const url = `/blog/${post.slug}`;
+const { title, author, date, image } = post.data;
+
+const readingTime = getReadingTime(post.body);
+---
+
+<article>
+    <a href={url} class="flex items-center justify-between p-4">
+        <div class="text-container">
+            <h2 class="blog-title">
+                What if we put some amount of text in here, what will happen
+            </h2>
+            <div class="flex gap-4 items-center">
+                <p>{author}</p>
+                <p>{formatDate(date)}</p>
+                <p>{readingTime}</p>
+            </div>
+        </div>
+        <div
+           class="link-image"
+           style={`background-image: url(${image.src});`}
+        ></div>
+    </a>
+</article>
+
+
+
+
+<style>
+    :root{
+        --image-width: 200px;
+    }
+    .text-container{
+        @apply max-w-[calc(100%-2%-var(--image-width))];
+    }
+    .blog-title{
+        @apply text-4xl leading-none truncate py-4;
+    }
+    article{
+        @apply bg-dark-accent w-full
+    }
+    .link-image{
+        width: var(--image-width);
+        aspect-ratio: 16/9;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+    p{
+        @apply text-sm
+    }
+</style>

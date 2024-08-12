@@ -1,6 +1,7 @@
 //makes a json file from all of our blogs that will later be used for search
 
 import { getCollection } from "astro:content"
+import { getReadingTime } from "../../ts/utils.ts"
 
 async function getPosts() {
     const posts = await getCollection('blog');
@@ -9,6 +10,7 @@ async function getPosts() {
         title: post.data.title,
         author: post.data.author,
         date: post.data.date,
+        readTime: getReadingTime(post.body),
     }));
 }
 

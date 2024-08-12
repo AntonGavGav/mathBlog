@@ -2,31 +2,92 @@
 //lib import
 import {getCollection} from "astro:content";
 //utils import
-import { getPinnedPost } from '../../ts/utils'
+import { getPinnedPost, formatBlogPosts } from '../../ts/utils'
 //component import
 import Icon from "../../components/Icon.astro";
 import PostCard from "../../components/PostCard.astro";
+import PostListCard from "../../components/PostListCard.astro"
 import Search from '../../components/SearchWidget.astro';
 //layout import
 import MainLayout from '../../layouts/MainLayout.astro';
+import QuickActions from "../../components/pageParts/QuickActions.astro";
 
 const blogEntries = await getCollection("blog");
 const pinnedPost = getPinnedPost(blogEntries);
 
+
 ---
 <MainLayout title="Whole Blog">
-    <section class = "mt-8 flex gap-2">
-        <div class="relative h-fit scale-95">
+    <section class = "mt-8 flex">
+        <div class="relative h-fit scale-95 ml-[-1.25%]">
             <PostCard post={pinnedPost} />
             <Icon
                 icon="push_pin"
                 width={60}
                 height={60}
-                class="absolute top-[-30px] left-1/2 translate-x-[-100%]"
+                class="absolute top-[-40px] left-1/2 translate-x-[-95%]"
             />
         </div>
-
         <Search />
+    </section>
+    <QuickActions />
+    <section class="my-8">
+        <h1 class="h1">Whole blog:</h1>
+        <table class="w-full table-fixed">
+            <tr>
+                <td>
+                    <PostListCard post={pinnedPost} />
+                </td>
+                <td>
+                    <PostListCard post={pinnedPost} />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <PostListCard post={pinnedPost} />
+                </td>
+                <td>
+                    <PostListCard post={pinnedPost} />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <PostListCard post={pinnedPost} />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <PostListCard post={pinnedPost} />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <PostListCard post={pinnedPost} />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <PostListCard post={pinnedPost} />
+                </td>
+            </tr>
+
+        </table>
 
     </section>
 </MainLayout>
+
+
+<style>
+    table tr{
+        @apply border-b-def-width border-light-accent
+    }
+    table td{
+        @apply border-r-def-width border-light-accent
+    }
+    table tr:last-child {
+        @apply border-b-0;
+    }
+    table td:last-child {
+        @apply border-r-0;
+    }
+</style>

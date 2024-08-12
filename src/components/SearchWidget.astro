@@ -13,20 +13,21 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
                 <div class="flex w-2/3 items-center justify-between">
                     <p id="author"></p>
                     <p id="date"></p>
-                    <p>12 m</p>
+                    <p id="time"></p>
                 </div>
             </div>
         </td>
     </tr>
-    <!--<a id="title"></a>-->
-    <!--<p id="author"></p>-->
-    <!--<p id="date"></p>-->
+</template>
+
+<template id="caption">
+    <caption class="text-3xl mt-36">Search <br />something</caption>
 </template>
 
 <template id="loaderTemplate">
-    <li id="loader-parent">
+    <div id="loader-parent">
         <div id="loader"></div>
-    </li>
+    </div>
 </template>
 
 
@@ -128,13 +129,16 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     const listItemTemplate = document.getElementById("listItemTemplate") as HTMLTemplateElement;
     const listItemTemplateContent = listItemTemplate.content;
 
+    const searchCaptionTemplate = document.getElementById("caption") as HTMLTemplateElement;
+    const searchCaptionTemplateContent = searchCaptionTemplate.content;
+
     //search related
     const search = document.getElementById("search") as HTMLInputElement;
     const searchReadout = document.getElementById("searchReadout") as HTMLElement;
     const searchResultList = document.getElementById("searchResultList") as HTMLElement;
 
 
-
+    showCaption();
 
     //functions
     export function formatDate(date:string){
@@ -151,7 +155,7 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         searchResultList.innerHTML = '';
         searchResultList.appendChild(loaderTemplateClone);
     }
-    function createListItem(title, author, date, slug): HTMLElement{
+    function createListItem(title, author, date, readTime, slug): HTMLElement{
         const template = listItemTemplateContent.cloneNode(true) as HTMLElement;
 
         const linkElement = template.querySelector("a");
@@ -164,7 +168,15 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         const dateElement = template.getElementById("date");
         dateElement.textContent = date;
 
+        const readingTimeElement = template.getElementById("time");
+        readingTimeElement.textContent = readTime;
+
         return template;
+    }
+
+    function showCaption(){
+        searchResultList.innerHTML = "";
+        searchResultList.appendChild(searchCaptionTemplateContent.cloneNode(true) as HTMLElement);
     }
 
     function fillOutResultList(results):void{
@@ -175,9 +187,9 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         searchResultList.innerHTML = "";
         const fragment = document.createDocumentFragment() as HTMLElement;
         results.map((result) => {
-            const { title, author, date, slug } = result.item;
+            const { title, author, date, readTime, slug } = result.item;
             const formattedDate = formatDate(date);
-            const listItem = createListItem(title, author, formattedDate, slug);
+            const listItem = createListItem(title, author, formattedDate, readTime, slug);
             fragment.appendChild(listItem);
         });
         searchResultList.appendChild(fragment);
@@ -185,7 +197,7 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
 
     async function fetchSearchResults(term: string){
         if(term.length === 0){
-            searchResultList.innerHTML = "";
+            showCaption();
             return;
         }
         runSpinner();

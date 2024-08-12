@@ -25,10 +25,9 @@ const readingTime = getReadingTime(post.body);
         class="w-full chessboard-bg flex items-center border-b-def-width"
         style={{"backgroundSize": "16px 16px"}}
     >
-        <Link class="bg-bg-color w-fit m-auto text-2xl no-padding"
-            text={formatDate(date)}
-            href={"no link yet"}
-        />
+        <p
+            class="bg-bg-color w-fit m-auto text-2xl no-padding"
+        >{formatDate(date)}</p>
     </header>
     <div class="w-[90%] mx-auto mt-4">
         <a href={url}
