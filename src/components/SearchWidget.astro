@@ -2,43 +2,59 @@
 //components import
 import Icon from "./Icon.astro";
 
-const attributes = {width: "37", height: "37", fill: "white"};
+const rows = Array.from({length: 10}, (_, i) => i + 1);
 ---
 
 <template id="listItemTemplate">
-    <a id="title"></a>
-    <p id="author"></p>
-    <p id="date"></p>
+    <tr>
+        <td>
+            <div class="bg-dark-accent my-2 p-3">
+                <a class="inline-block text-4xl my-4" id="title"></a>
+                <div class="flex w-2/3 items-center justify-between">
+                    <p id="author"></p>
+                    <p id="date"></p>
+                    <p id="time"></p>
+                </div>
+            </div>
+        </td>
+    </tr>
+</template>
+
+<template id="caption">
+    <caption class="text-3xl mt-36">Search <br />something</caption>
 </template>
 
 <template id="loaderTemplate">
-    <li id="loader-parent">
+    <div id="loader-parent">
         <div id="loader"></div>
-    </li>
+    </div>
 </template>
 
 
-<aside class="mt-9">
+<aside class=" flex flex-col">
     <div class="search-bar">
         <div class="absolute inset-y-0 start-3 flex items-center ps-3 pointer-events-none">
-            <Icon icon="search" {...attributes} />
+            <Icon icon="search" width={37} height={37} fill="white" />
         </div>
         <input
             type="text"
             required
             minlength="3"
             maxlength="30"
-            name=""
             placeholder="Search smth..."
             class="search-input"
             id="search"
             autocomplete="off"
         />
     </div>
-    <p id="searchReadout"></p>
-    <ul id="searchResultList">
+    <div class="result-container scrollbar">
+        <div class="relative w-[98%]" dir="ltr">
+            <p id="searchReadout"></p>
+            <table id="searchResultList">
 
-    </ul>
+            </table>
+        </div>
+    </div>
 </aside>
 
 <style>
@@ -57,8 +73,29 @@ const attributes = {width: "37", height: "37", fill: "white"};
         transform:scale(0.8) translate(-50%, -50%);
     }
 
+    .result-container{
+        direction: rtl;
+        height: 100%;
+        overflow-y: auto;
+    }
+    table{
+        position: absolute;
+        width: 100%;
+    }
+
+    p{
+        @apply text-sm
+    }
+
+    table tr{
+        @apply border-b-def-width border-light-accent
+    }
+    table tr:last-child {
+        @apply border-b-0;
+    }
+
     .search-bar{
-        @apply relative w-full
+        @apply relative w-full mb-4
     }
     .search-input{
         @apply block w-full text-4xl font-normal h-full p-4 ps-20 bg-dark-accent border-def-width focus:border-light-accent focus:rounded-none
@@ -92,13 +129,16 @@ const attributes = {width: "37", height: "37", fill: "white"};
     const listItemTemplate = document.getElementById("listItemTemplate") as HTMLTemplateElement;
     const listItemTemplateContent = listItemTemplate.content;
 
+    const searchCaptionTemplate = document.getElementById("caption") as HTMLTemplateElement;
+    const searchCaptionTemplateContent = searchCaptionTemplate.content;
+
     //search related
     const search = document.getElementById("search") as HTMLInputElement;
     const searchReadout = document.getElementById("searchReadout") as HTMLElement;
     const searchResultList = document.getElementById("searchResultList") as HTMLElement;
 
 
-
+    showCaption();
 
     //functions
     export function formatDate(date:string){
@@ -115,7 +155,7 @@ const attributes = {width: "37", height: "37", fill: "white"};
         searchResultList.innerHTML = '';
         searchResultList.appendChild(loaderTemplateClone);
     }
-    function createListItem(title, author, date, slug): HTMLElement{
+    function createListItem(title, author, date, readTime, slug): HTMLElement{
         const template = listItemTemplateContent.cloneNode(true) as HTMLElement;
 
         const linkElement = template.querySelector("a");
@@ -128,7 +168,15 @@ const attributes = {width: "37", height: "37", fill: "white"};
         const dateElement = template.getElementById("date");
         dateElement.textContent = date;
 
+        const readingTimeElement = template.getElementById("time");
+        readingTimeElement.textContent = readTime;
+
         return template;
+    }
+
+    function showCaption(){
+        searchResultList.innerHTML = "";
+        searchResultList.appendChild(searchCaptionTemplateContent.cloneNode(true) as HTMLElement);
     }
 
     function fillOutResultList(results):void{
@@ -139,9 +187,9 @@ const attributes = {width: "37", height: "37", fill: "white"};
         searchResultList.innerHTML = "";
         const fragment = document.createDocumentFragment() as HTMLElement;
         results.map((result) => {
-            const { title, author, date, slug } = result.item;
+            const { title, author, date, readTime, slug } = result.item;
             const formattedDate = formatDate(date);
-            const listItem = createListItem(title, author, formattedDate, slug);
+            const listItem = createListItem(title, author, formattedDate, readTime, slug);
             fragment.appendChild(listItem);
         });
         searchResultList.appendChild(fragment);
@@ -149,7 +197,7 @@ const attributes = {width: "37", height: "37", fill: "white"};
 
     async function fetchSearchResults(term: string){
         if(term.length === 0){
-            searchResultList.innerHTML = "";
+            showCaption();
             return;
         }
         runSpinner();

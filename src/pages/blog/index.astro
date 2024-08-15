@@ -1,9 +1,89 @@
 ---
+//lib import
+import {getCollection} from "astro:content";
+//utils import
+import { getPinnedPost, formatBlogPosts } from '../../ts/utils'
 //component import
-import Search from '../../components/SearchBar.astro';
+import Icon from "../../components/Icon.astro";
+import PostCard from "../../components/PostCard.astro";
+import PostListCard from "../../components/PostListCard.astro"
+import Search from '../../components/SearchWidget.astro';
 //layout import
 import MainLayout from '../../layouts/MainLayout.astro';
+import QuickActions from "../../components/pageParts/QuickActions.astro";
+
+const blogEntries = await getCollection("blog");
+const pinnedPost = getPinnedPost(blogEntries);
+const formatedPosts = formatBlogPosts(blogEntries,{
+    filterOutPinned: true,
+});
+
+
 ---
-<MainLayout>
-    <Search />
+<MainLayout title="Whole Blog">
+    <section class = "mt-8 flex">
+        <div class="relative h-fit scale-95 ml-[-1.25%]">
+            <PostCard post={pinnedPost} />
+            <Icon
+                icon="push_pin"
+                width={60}
+                height={60}
+                class="absolute top-[-40px] left-1/2 translate-x-[-95%]"
+            />
+        </div>
+        <Search />
+    </section>
+    <QuickActions />
+    <section class="my-8">
+        <h1 class="h1 py-8">Whole blog:</h1>
+        <table class="w-full table-fixed">
+            <tbody>
+            {formatedPosts.map((post, index) => {
+                const isLastOddPost = formatedPosts.length % 2 !== 0 && index === formatedPosts.length - 1;
+                if (isLastOddPost) {
+                    return (
+                        <tr>
+                            <td colspan="2">
+                                <PostListCard post={post} />
+                            </td>
+                        </tr>
+                    );
+                }
+                if (index % 2 === 0) {
+                    return (
+                        <tr>
+                            <td>
+                                <PostListCard post={post} />
+                            </td>
+                            <td>
+                                {formatedPosts[index + 1] && <PostListCard post={formatedPosts[index + 1]} />}
+                            </td>
+                        </tr>
+                    );
+                }
+                return null;
+            })}
+            </tbody>
+        </table>
+
+    </section>
 </MainLayout>
+
+
+<style>
+    table tr{
+        @apply border-b-def-width border-light-accent
+    }
+    table td{
+        @apply border-r-def-width border-light-accent
+    }
+    table tr:last-child {
+        @apply border-b-0;
+    }
+    table td:last-child {
+        @apply border-r-0;
+    }
+    tbody:has(>:last-child:nth-child(1)){ /* if has only 1 element */
+        @apply border-def-width border-light-accent
+    }
+</style>
