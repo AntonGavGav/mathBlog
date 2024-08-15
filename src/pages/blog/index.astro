@@ -14,6 +14,9 @@ import QuickActions from "../../components/pageParts/QuickActions.astro";
 
 const blogEntries = await getCollection("blog");
 const pinnedPost = getPinnedPost(blogEntries);
+const formatedPosts = formatBlogPosts(blogEntries,{
+    filterOutPinned: true,
+});
 
 
 ---
@@ -32,45 +35,35 @@ const pinnedPost = getPinnedPost(blogEntries);
     </section>
     <QuickActions />
     <section class="my-8">
-        <h1 class="h1">Whole blog:</h1>
+        <h1 class="h1 py-8">Whole blog:</h1>
         <table class="w-full table-fixed">
-            <tr>
-                <td>
-                    <PostListCard post={pinnedPost} />
-                </td>
-                <td>
-                    <PostListCard post={pinnedPost} />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <PostListCard post={pinnedPost} />
-                </td>
-                <td>
-                    <PostListCard post={pinnedPost} />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <PostListCard post={pinnedPost} />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <PostListCard post={pinnedPost} />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <PostListCard post={pinnedPost} />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <PostListCard post={pinnedPost} />
-                </td>
-            </tr>
-
+            <tbody>
+            {formatedPosts.map((post, index) => {
+                const isLastOddPost = formatedPosts.length % 2 !== 0 && index === formatedPosts.length - 1;
+                if (isLastOddPost) {
+                    return (
+                        <tr>
+                            <td colspan="2">
+                                <PostListCard post={post} />
+                            </td>
+                        </tr>
+                    );
+                }
+                if (index % 2 === 0) {
+                    return (
+                        <tr>
+                            <td>
+                                <PostListCard post={post} />
+                            </td>
+                            <td>
+                                {formatedPosts[index + 1] && <PostListCard post={formatedPosts[index + 1]} />}
+                            </td>
+                        </tr>
+                    );
+                }
+                return null;
+            })}
+            </tbody>
         </table>
 
     </section>
@@ -89,5 +82,8 @@ const pinnedPost = getPinnedPost(blogEntries);
     }
     table td:last-child {
         @apply border-r-0;
+    }
+    tbody:has(>:last-child:nth-child(1)){ /* if has only 1 element */
+        @apply border-def-width border-light-accent
     }
 </style>

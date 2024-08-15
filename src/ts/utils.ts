@@ -55,6 +55,7 @@ export async function getSVG(name: string): Promise<SVGContent> {
 
 interface FormatBlogPostsOptions {
     filterOutDrafts?: boolean;
+    filterOutPinned?: boolean;
     filterOutFuturePosts?: boolean;
     sortByDate?: boolean;
     limit?: number | undefined;
@@ -63,11 +64,12 @@ interface FormatBlogPostsOptions {
 export function formatBlogPosts(posts: CollectionEntry<'blog'>[], {
     filterOutDrafts = true,
     filterOutFuturePosts = true,
+    filterOutPinned = false,
     sortByDate = true,
-    limit = undefined
+    limit = undefined,
 }: FormatBlogPostsOptions = {}): CollectionEntry<'blog'>[] {
     const filteredPosts:CollectionEntry<'blog'>[] = posts.reduce((accumulator:CollectionEntry<'blog'>[], post) => {
-        const { date } = post.data;
+        const { date, pinned } = post.data;
 
         // filter out drafts if true
         // if (filterOutDrafts && draft) {
@@ -76,6 +78,10 @@ export function formatBlogPosts(posts: CollectionEntry<'blog'>[], {
 
         // filter out future posts if true
         if (filterOutFuturePosts && new Date(date) > new Date()) {
+            return accumulator;
+        }
+
+        if(filterOutPinned && pinned){
             return accumulator;
         }
 
