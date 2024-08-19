@@ -1,6 +1,11 @@
 ---
 //lib import
 import { getCollection, CollectionEntry } from "astro:content";
+//utils import
+import { formatDate, getReadingTime } from "../../ts/utils.ts"
+//layout import
+import MainLayout from "../../layouts/MainLayout.astro";
+import Icon from "../../components/Icon.astro";
 
 export async function getStaticPaths(){
     const blogEntries = await getCollection("blog");
@@ -19,9 +24,52 @@ interface Props {
 }
 
 const { entry } = Astro.props as Props;
+const { title, author, image, date } = entry.data;
+const readingTime = getReadingTime(entry.body);
 const { Content } = await entry.render();
 ---
 
-<article>
-    <Content />
-</article>
+<MainLayout>
+    <section>
+        <h1 class="blog-title">{title}</h1>
+        <h2>Written by: {author}</h2>
+        <div
+           class="link-image"
+           style={`background-image: url(${image.src});`}
+        ></div>
+        <div class="flex items-center">
+            <Icon icon="clock" width={35} height={35} stroke="var(--light-accent)"/>
+            <h3>{readingTime}</h3>
+            <h3>{formatDate(date)}</h3>
+        </div>
+    </section>
+    <section>
+        <Content />
+    </section>
+</MainLayout>
+
+
+<style>
+    html{
+        scroll-snap-type: y mandatory;
+    }
+    section{
+        block-size: 100%;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+    }
+    .link-image{
+        display: block;
+        aspect-ratio: 16/10;
+        margin: 0 4rem;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+    .blog-title{
+        @apply text-8xl font-november leading-none w-full;
+    }
+    h2{
+        @apply text-2xl leading-none w-full;
+    }
+</style>
