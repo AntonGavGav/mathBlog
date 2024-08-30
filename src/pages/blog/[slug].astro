@@ -28,36 +28,35 @@ const { title, author, image, date } = entry.data;
 const readingTime = getReadingTime(entry.body);
 const { Content } = await entry.render();
 ---
-
-<MainLayout>
+<!--implement a better snap scroll-->
+<MainLayout title={title} >
     <section>
         <h1 class="blog-title">{title}</h1>
-        <h2>Written by: {author}</h2>
+        <h2 class="pb-4 pt-2">Written by: {author}</h2>
         <div
            class="link-image"
            style={`background-image: url(${image.src});`}
         ></div>
-        <div class="flex items-center">
-            <Icon icon="clock" width={35} height={35} stroke="var(--light-accent)"/>
-            <h3>{readingTime}</h3>
-            <h3>{formatDate(date)}</h3>
-        </div>
+        <section class="pt-4 flex gap-12 items-center">
+            <div class="flex items-center gap-4">
+                <Icon icon="clock" width={35} height={35} stroke="white"/>
+                <p>{readingTime}</p>
+            </div>
+            <p>{author}</p>
+            <p>{formatDate(date)}</p>
+        </section>
     </section>
+
+    <Icon icon="arrow_up" class="block m-auto mt-5 mb-10" width={35} height={35} fill="white" transform="scale(1, -1)"/>
+
     <section>
+        <!--change font of the content-->
         <Content />
     </section>
 </MainLayout>
 
 
 <style>
-    html{
-        scroll-snap-type: y mandatory;
-    }
-    section{
-        block-size: 100%;
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
-    }
     .link-image{
         display: block;
         aspect-ratio: 16/10;
@@ -67,7 +66,7 @@ const { Content } = await entry.render();
         background-position: center;
     }
     .blog-title{
-        @apply text-8xl font-november leading-none w-full;
+        @apply text-8xl font-november mt-8 leading-none w-full;
     }
     h2{
         @apply text-2xl leading-none w-full;

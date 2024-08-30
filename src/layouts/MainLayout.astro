@@ -6,9 +6,10 @@ import Header from "../components/pageParts/Header.astro";
 
 interface Props{
 	title: string,
+	showHeader?: boolean,
 }
 
-const { title } = Astro.props as Props;
+const { title, showHeader = true} = Astro.props as Props;
 ---
 
 <!doctype html>
@@ -22,9 +23,12 @@ const { title } = Astro.props as Props;
 		<title>{title}</title>
 	</head>
 	<body>
+	{ showHeader && (
 		<header class="w-full">
 			<Header/>
 		</header>
+		)
+	}
 		<main>
 			<slot />
 		</main>
