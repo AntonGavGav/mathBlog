@@ -4,7 +4,7 @@ import { getCollection, CollectionEntry } from "astro:content";
 //utils import
 import { formatDate, getReadingTime } from "../../ts/utils.ts"
 //layout import
-import MainLayout from "../../layouts/MainLayout.astro";
+import PostLayout from "../../layouts/PostLayout.astro";
 import Icon from "../../components/Icon.astro";
 
 export async function getStaticPaths(){
@@ -29,7 +29,7 @@ const readingTime = getReadingTime(entry.body);
 const { Content } = await entry.render();
 ---
 <!--implement a better snap scroll-->
-<MainLayout title={title} >
+<PostLayout title={title} >
     <section>
         <h1 class="blog-title">{title}</h1>
         <h2 class="pb-4 pt-2">Written by: {author}</h2>
@@ -49,11 +49,11 @@ const { Content } = await entry.render();
 
     <Icon icon="arrow_up" class="block m-auto mt-5 mb-10" width={35} height={35} fill="white" transform="scale(1, -1)"/>
 
-    <section>
+    <section class="markdown-content">
         <!--change font of the content-->
         <Content />
     </section>
-</MainLayout>
+</PostLayout>
 
 
 <style>

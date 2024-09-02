@@ -5,6 +5,7 @@ module.exports = {
 	theme: {
 		fontFamily:{
 			'sans': ['Videotype', 'sans-serif'],
+			'inter': ['Inter'],
 			'daydream': ['Daydream'],
 			'november' : ['November'],
 		},
