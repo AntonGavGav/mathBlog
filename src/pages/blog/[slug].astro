@@ -30,7 +30,7 @@ const { Content } = await entry.render();
 ---
 <!--implement a better snap scroll-->
 <PostLayout title={title} >
-    <section>
+    <section slot="after-header">
         <h1 class="blog-title">{title}</h1>
         <h2 class="pb-4 pt-2">Written by: {author}</h2>
         <div
@@ -46,8 +46,6 @@ const { Content } = await entry.render();
             <p>{formatDate(date)}</p>
         </section>
     </section>
-
-    <Icon icon="arrow_up" class="block m-auto mt-5 mb-10" width={35} height={35} fill="white" transform="scale(1, -1)"/>
 
     <section class="markdown-content">
         <!--change font of the content-->

@@ -10,7 +10,12 @@ export default defineConfig({
     // Useful if you need to define and/or import your own custom `base.css`.
     applyBaseStyles: false
   }), mdx({
+      extendMarkdownConfig: false,
+      optimize: true,
       syntaxHighlight: 'shiki',
-      shikiConfig: { theme: 'dracula' },
+      shikiConfig: {
+          theme: 'tokyo-night',
+          wrap: true,
+      },
   })]
 });

@@ -3,6 +3,7 @@
 import "../styles/global.css"
 //components import
 import Header from "../components/pageParts/Header.astro";
+import Icon from "../components/Icon.astro";
 
 interface Props{
     title: string,
@@ -21,11 +22,18 @@ const { title } = Astro.props as Props;
         <title>{title}</title>
     </head>
     <body>
-        <header class="w-full">
-            <Header/>
-        </header>
-        <main>
+        <Header/>
+        <slot name="after-header" />
+        <Icon icon="arrow_up" class="block m-auto mt-5 mb-10" width={35} height={35} fill="white" transform="scale(1, -1)"/>
+        <main class="post-content">
             <slot />
         </main>
     </body>
 </html>
+
+
+<style>
+    main{
+        font-family: "Inter", sans-serif;
+    }
+</style>

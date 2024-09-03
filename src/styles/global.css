@@ -109,4 +109,35 @@
         }
     }
 
+
+    /*post content styles*/
+    .post-content{
+        font-family: "Inter", sans-serif;
+        font-weight: 350;
+    }
+    .post-content h1{
+        @apply font-sans text-5xl font-bold mb-6;
+    }
+    .post-content h2{
+        @apply font-sans text-3xl mb-4;
+    }
+    .post-content p+h1, p+h2{
+        @apply mt-8;
+    }
+    .post-content strong{
+        font-weight: 800;
+    }
+    .post-content ul, ol{
+        list-style-position: inside;
+        @apply mt-2 ml-2
+    }
+    .post-content ul{
+        list-style-type: square;
+    }
+    .post-content ol{
+        list-style-type: decimal;
+    }
+    .post-content .astro-code{
+        @apply mx-2 my-6
+    }
 }
