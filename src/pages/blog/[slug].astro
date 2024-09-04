@@ -7,6 +7,8 @@ import { formatDate, getReadingTime } from "../../ts/utils.ts"
 import PostLayout from "../../layouts/PostLayout.astro";
 import Icon from "../../components/Icon.astro";
 
+
+
 export async function getStaticPaths(){
     const blogEntries = await getCollection("blog");
 
@@ -48,7 +50,12 @@ const { Content } = await entry.render();
     </section>
 
     <section class="markdown-content">
-        <!--change font of the content-->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
+            integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ"
+            crossorigin="anonymous"
+        />
         <Content />
     </section>
 </PostLayout>

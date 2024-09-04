@@ -138,6 +138,6 @@
         list-style-type: decimal;
     }
     .post-content .astro-code{
-        @apply mx-2 my-6
+        @apply mx-2 my-6 p-6
     }
 }

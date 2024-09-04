@@ -1,5 +1,7 @@
 import { defineConfig } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 
 import mdx from "@astrojs/mdx";
 
@@ -17,5 +19,7 @@ export default defineConfig({
           theme: 'tokyo-night',
           wrap: true,
       },
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex],
   })]
 });
