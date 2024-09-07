@@ -111,47 +111,63 @@
 
 
     /*post content styles*/
-    .post-content{
+    .post-content {
         font-family: "Inter", sans-serif;
         font-weight: 350;
     }
-    .post-content h1{
+
+    .post-content h1 {
         @apply font-sans text-5xl font-bold mb-4;
     }
-    .post-content h2{
+
+    .post-content h2 {
         @apply font-sans text-3xl mb-2;
     }
-    .post-content p+h1, p+h2{
+
+    .post-content p + h1,
+    .post-content p + h2 {
         @apply mt-8;
     }
-    .post-content strong{
+
+    .post-content strong {
         font-weight: 800;
     }
+
     .post-content ul ul,
     .post-content ul ol,
     .post-content ol ul,
     .post-content ol ol {
         @apply ml-6;
     }
-    .post-content ul+ol, ol+ul, ul+ul, ol+ol{
+
+    .post-content ul + ol,
+    .post-content ol + ul,
+    .post-content ul + ul,
+    .post-content ol + ol {
         @apply mt-4;
     }
-    .post-content ul, ol{
+
+    .post-content ul,
+    .post-content ol {
         list-style-position: inside;
-        @apply my-2 ml-2
+        @apply my-2 ml-2;
     }
-    .post-content ul{
+
+    .post-content ul {
         list-style-type: square;
     }
-    .post-content ol{
+
+    .post-content ol {
         list-style-type: decimal;
     }
-    .post-content .astro-code{
-        @apply my-6 px-6 py-10 text-xl
+
+    .post-content .astro-code {
+        @apply my-6 px-6 py-10 text-xl;
     }
-    .post-content p code{
-        background-color:#191724;
-        color:#e0def4;
+
+    .post-content p code {
+        background-color: #191724;
+        color: #e0def4;
         font-family: "Inter", sans-serif;
         font-weight: 400;
         overflow-x: auto;
@@ -160,28 +176,39 @@
         word-wrap: break-word;
         vertical-align: middle;
     }
-    .post-content p img{
-        @apply w-full
+
+    .post-content p img {
+        @apply w-full;
     }
-    .post-content table{
-        @apply my-6 w-full
+
+    .post-content table {
+        @apply my-6 w-full;
     }
-    .post-content table, tr, th, td{
-        @apply border-2 px-4 py-2
+
+    .post-content table,
+    .post-content table tr,
+    .post-content table th,
+    .post-content table td {
+        @apply border-2 px-4 py-2;
     }
-    .post-content table thead{
-        @apply bg-dark-accent
+
+    .post-content table thead {
+        @apply bg-dark-accent;
     }
+
     .post-content .two-column {
         @apply flex my-2 gap-1;
     }
-    .post-content .two-column section{
+
+    .post-content .two-column section {
         @apply flex-1;
     }
-    .post-content a{
-        @apply font-[400] text-[#e0def4] underline
+
+    .post-content a {
+        @apply font-[400] text-[#e0def4] underline;
     }
-    .post-content a:hover{
+
+    .post-content a:hover {
         color: #f1f1fd;
     }
 }

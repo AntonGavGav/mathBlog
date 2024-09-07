@@ -6,7 +6,7 @@ import { getPinnedPost, formatBlogPosts } from '../../ts/utils'
 //component import
 import Icon from "../../components/Icon.astro";
 import PostCard from "../../components/PostCard.astro";
-import PostListCard from "../../components/PostListCard.astro"
+import PostMiniCard from "../../components/PostMiniCard.astro"
 import Search from '../../components/SearchWidget.astro';
 //layout import
 import MainLayout from '../../layouts/MainLayout.astro';
@@ -43,8 +43,8 @@ const formatedPosts = formatBlogPosts(blogEntries,{
                 if (isLastOddPost) {
                     return (
                         <tr>
-                            <td colspan="2">
-                                <PostListCard post={post} />
+                            <td>
+                                <PostMiniCard post={post} />
                             </td>
                         </tr>
                     );
@@ -53,10 +53,10 @@ const formatedPosts = formatBlogPosts(blogEntries,{
                     return (
                         <tr>
                             <td>
-                                <PostListCard post={post} />
+                                <PostMiniCard post={post} />
                             </td>
                             <td>
-                                {formatedPosts[index + 1] && <PostListCard post={formatedPosts[index + 1]} />}
+                                {formatedPosts[index + 1] && <PostMiniCard post={formatedPosts[index + 1]} />}
                             </td>
                         </tr>
                     );
@@ -69,21 +69,23 @@ const formatedPosts = formatBlogPosts(blogEntries,{
     </section>
 </MainLayout>
 
-
 <style>
-    table tr{
-        @apply border-b-def-width border-light-accent
-    }
     table td{
-        @apply border-r-def-width border-light-accent
-    }
-    table tr:last-child {
-        @apply border-b-0;
-    }
-    table td:last-child {
-        @apply border-r-0;
-    }
-    tbody:has(>:last-child:nth-child(1)){ /* if has only 1 element */
-        @apply border-def-width border-light-accent
+        @apply pt-2;
     }
 </style>
+
+<!--<style>-->
+<!--    table tr{-->
+<!--        @apply border-b-def-width border-light-accent-->
+<!--    }-->
+<!--    table td{-->
+<!--        @apply border-r-def-width border-light-accent-->
+<!--    }-->
+<!--    table tr:last-child {-->
+<!--        @apply border-b-0;-->
+<!--    }-->
+<!--    table td:last-child {-->
+<!--        @apply border-r-0;-->
+<!--    }-->
+<!--</style>-->

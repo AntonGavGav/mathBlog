@@ -19,21 +19,21 @@ const readingTime = getReadingTime(post.body);
 ---
 
 <article>
-    <a href={url} class="flex items-center justify-between p-4">
+    <a href={url} class="flex items-center h-full relative">
+        <div
+            class="link-image"
+            style={`background-image: url(${image.src});`}
+        ></div>
         <div class="text-container">
-            <h2 class="blog-title">
-                {title}
-            </h2>
             <div class="flex gap-4 items-center">
-                <p>{author}</p>
                 <p>{formatDate(date)}</p>
                 <p>{readingTime}</p>
             </div>
+            <h2 class="blog-title">
+                {title}
+            </h2>
+            <p>{author}</p>
         </div>
-        <div
-           class="link-image"
-           style={`background-image: url(${image.src});`}
-        ></div>
     </a>
 </article>
 
@@ -41,26 +41,23 @@ const readingTime = getReadingTime(post.body);
 
 
 <style>
-    :root{
-        --image-width: 200px;
-    }
-    .text-container{
-        @apply max-w-[calc(100%-2%-var(--image-width))];
-    }
-    .blog-title{
-        @apply text-4xl leading-none truncate py-4;
-    }
-    article{
-        @apply bg-dark-accent w-full
-    }
     .link-image{
-        width: var(--image-width);
-        aspect-ratio: 16/9;
+        position:relative;
+        width: 250px;
+        aspect-ratio: 16/12;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
+        flex-shrink: 0;
     }
-    p{
-        @apply text-sm
+    .text-container{
+        @apply flex-1 self-stretch flex flex-col justify-around py-2 pl-4;
+    }
+    .blog-title{
+        @apply text-4xl max-w-full;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 </style>
