@@ -16,7 +16,7 @@ export default defineConfig({
       optimize: true,
       syntaxHighlight: 'shiki',
       shikiConfig: {
-          theme: 'tokyo-night',
+          theme: 'rose-pine',
           wrap: true,
       },
       remarkPlugins: [remarkMath],
