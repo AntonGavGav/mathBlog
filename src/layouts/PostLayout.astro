@@ -1,0 +1,39 @@
+---
+//styles import
+import "../styles/global.css"
+//components import
+import Header from "../components/pageParts/Header.astro";
+import Icon from "../components/Icon.astro";
+
+interface Props{
+    title: string,
+}
+
+const { title } = Astro.props as Props;
+---
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Astro description" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+    </head>
+    <body>
+        <Header/>
+        <slot name="after-header" />
+        <Icon icon="arrow_up" class="block m-auto mt-5 mb-10" width={35} height={35} fill="white" transform="scale(1, -1)"/>
+        <main class="post-content">
+            <slot />
+        </main>
+    </body>
+</html>
+
+
+<style>
+    main{
+        font-family: "Inter", sans-serif;
+    }
+</style>

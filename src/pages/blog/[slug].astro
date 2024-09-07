@@ -1,6 +1,13 @@
 ---
 //lib import
 import { getCollection, CollectionEntry } from "astro:content";
+//utils import
+import { formatDate, getReadingTime } from "../../ts/utils.ts"
+//layout import
+import PostLayout from "../../layouts/PostLayout.astro";
+import Icon from "../../components/Icon.astro";
+
+
 
 export async function getStaticPaths(){
     const blogEntries = await getCollection("blog");
@@ -19,9 +26,54 @@ interface Props {
 }
 
 const { entry } = Astro.props as Props;
+const { title, author, image, date } = entry.data;
+const readingTime = getReadingTime(entry.body);
 const { Content } = await entry.render();
 ---
+<!--implement a better snap scroll-->
+<PostLayout title={title} >
+    <section slot="after-header">
+        <h1 class="blog-title">{title}</h1>
+        <h2 class="pb-4 pt-2">Written by: {author}</h2>
+        <div
+           class="link-image"
+           style={`background-image: url(${image.src});`}
+        ></div>
+        <section class="pt-4 flex gap-12 items-center">
+            <div class="flex items-center gap-4">
+                <Icon icon="clock" width={35} height={35} stroke="white"/>
+                <p>{readingTime}</p>
+            </div>
+            <p>{author}</p>
+            <p>{formatDate(date)}</p>
+        </section>
+    </section>
 
-<article>
-    <Content />
-</article>
+    <section class="markdown-content">
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
+            integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ"
+            crossorigin="anonymous"
+        />
+        <Content />
+    </section>
+</PostLayout>
+
+
+<style>
+    .link-image{
+        display: block;
+        aspect-ratio: 16/10;
+        margin: 0 4rem;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+    .blog-title{
+        @apply text-8xl font-november mt-8 leading-none w-full;
+    }
+    h2{
+        @apply text-2xl leading-none w-full;
+    }
+</style>

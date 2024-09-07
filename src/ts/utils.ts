@@ -110,7 +110,7 @@ export function getPinnedPost(posts: CollectionEntry<'blog'>[]): CollectionEntry
 
 
 
-export function formatDate(date:string){
+export function formatDate(date:string | Date){
     return new Date(date).toLocaleDateString('en-US', {timeZone: "UTC",});
 }
 
