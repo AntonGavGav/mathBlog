@@ -1,0 +1,36 @@
+---
+//libraries import
+import type { CollectionEntry } from "astro:content";
+//utils import
+import { formatDate, getReadingTime } from "../ts/utils.ts"
+
+
+interface Props {
+    post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props as Props;
+
+const url = `/blog/${post.slug}`;
+const { title, author, date} = post.data;
+
+const readingTime = getReadingTime(post.body);
+---
+<a href={url} class="flex items-center h-full relative">
+    <p>{readingTime}</p>
+    <h2>{title}</h2>
+    <p>{author}</p>
+</a>
+
+
+<style>
+    a{
+        @apply mb-6
+    }
+    h2{
+        @apply text-2xl font-medium px-8 underline
+    }
+    p{
+        @apply text-xl
+    }
+</style>

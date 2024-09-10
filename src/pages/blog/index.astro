@@ -7,6 +7,7 @@ import { getPinnedPost, formatBlogPosts } from '../../ts/utils'
 import Icon from "../../components/Icon.astro";
 import PostCard from "../../components/PostCard.astro";
 import PostMiniCard from "../../components/PostMiniCard.astro"
+import PostListCard from "../../components/PostListCard.astro"
 import Search from '../../components/SearchWidget.astro';
 //layout import
 import MainLayout from '../../layouts/MainLayout.astro';
@@ -35,8 +36,23 @@ const formatedPosts = formatBlogPosts(blogEntries,{
     </section>
     <QuickActions />
     <section class="my-8">
-        <h1 class="h1 py-8">Whole blog:</h1>
-        <table class="w-full table-fixed">
+        <div class="mb-8 flex justify-between items-end">
+            <h1 class="h1">Whole blog:</h1>
+            <div>
+                <button id="show-grid-posts"><Icon icon="grid" width={45} height={45} stroke="white"/></button>
+                <button id="show-line-posts"><Icon icon="list" width={45} height={45} stroke="white"/></button>
+            </div>
+        </div>
+
+        <section id="post-list-wrapper">
+            {formatedPosts.map((post, index) => {
+                return(
+                        <PostListCard post={post} />
+                )
+            })}
+        </section>
+
+        <table id="post-grid-wrapper" class="w-full table-fixed hidden">
             <tbody>
             {formatedPosts.map((post, index) => {
                 const isLastOddPost = formatedPosts.length % 2 !== 0 && index === formatedPosts.length - 1;
@@ -70,10 +86,30 @@ const formatedPosts = formatBlogPosts(blogEntries,{
 </MainLayout>
 
 <style>
+    .hidden{
+        display:none;
+    }
     table td{
-        @apply pt-2;
+        @apply pb-4;
     }
 </style>
+<script>
+    const listButton = document.getElementById("show-line-posts");
+    const gridButton = document.getElementById("show-grid-posts");
+    const postListWrapper = document.getElementById("post-list-wrapper");
+    const postGridWrapper = document.getElementById("post-grid-wrapper");
+
+    //slow transition to the top and a check if already shown
+    listButton.addEventListener("click", () => {
+        postListWrapper.classList.remove("hidden");
+        postGridWrapper.classList.add("hidden");
+    })
+    gridButton.addEventListener("click", () => {
+        postListWrapper.classList.add("hidden");
+        postGridWrapper.classList.remove("hidden");
+    })
+
+</script>
 
 <!--<style>-->
 <!--    table tr{-->
