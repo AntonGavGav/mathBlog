@@ -94,19 +94,36 @@ const formatedPosts = formatBlogPosts(blogEntries,{
     }
 </style>
 <script>
-    const listButton = document.getElementById("show-line-posts");
-    const gridButton = document.getElementById("show-grid-posts");
-    const postListWrapper = document.getElementById("post-list-wrapper");
-    const postGridWrapper = document.getElementById("post-grid-wrapper");
+    const listButton = document.getElementById("show-line-posts") as HTMLElement;
+    const gridButton = document.getElementById("show-grid-posts") as HTMLElement;
+    const postListWrapper = document.getElementById("post-list-wrapper") as HTMLElement;
+    const postGridWrapper = document.getElementById("post-grid-wrapper") as HTMLElement;
+
+    let listWrapperShown = true;
+    listButton.classList.add("hidden");
 
     //slow transition to the top and a check if already shown
     listButton.addEventListener("click", () => {
-        postListWrapper.classList.remove("hidden");
-        postGridWrapper.classList.add("hidden");
+        if(!listWrapperShown) {
+            postListWrapper.classList.remove("hidden");
+            postGridWrapper.classList.add("hidden");
+
+            listButton.classList.add("hidden");
+            gridButton.classList.remove("hidden");
+
+            listWrapperShown = true;
+        }
     })
     gridButton.addEventListener("click", () => {
-        postListWrapper.classList.add("hidden");
-        postGridWrapper.classList.remove("hidden");
+        if(listWrapperShown) {
+            postListWrapper.classList.add("hidden");
+            postGridWrapper.classList.remove("hidden");
+
+            listButton.classList.remove("hidden");
+            gridButton.classList.add("hidden");
+
+            listWrapperShown = false;
+        }
     })
 
 </script>
