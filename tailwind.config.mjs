@@ -3,6 +3,10 @@ module.exports = {
 	mode: 'jit',
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
+		screens:{
+			'xl': {'max': '1130px'},
+			'lg': {'max': '740px'},
+		},
 		fontFamily:{
 			'sans': ['Videotype', 'sans-serif'],
 			'inter': ['Inter'],

@@ -52,15 +52,12 @@
         @apply max-w-[70rem] m-auto h-screen text-xl
     }
     main{
-        @apply pb-24
+        @apply pb-24 xl:px-[2rem]
     }
 
     /*global classes*/
     .container{
         @apply border-def-width bg-dark-accent border-light-accent
-    }
-    .main-text{
-        @apply text-[7.5rem] leading-tight font-daydream
     }
     .h1{
         @apply text-6xl font-black;
