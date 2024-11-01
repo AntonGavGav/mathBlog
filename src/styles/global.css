@@ -47,12 +47,13 @@
     /* global attributes */
     html{
         @apply bg-bg-color text-text-primary-color font-sans
+
     }
     body{
-        @apply max-w-[70rem] m-auto h-screen text-xl
+        @apply max-w-[70rem] m-auto h-screen text-xl lg:text-lg
     }
     main{
-        @apply pb-24 xl:px-[2rem]
+        @apply pb-24 xl:px-[2rem] lg:px-[1rem]
     }
 
     /*global classes*/

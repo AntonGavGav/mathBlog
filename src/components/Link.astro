@@ -20,10 +20,7 @@ const {
     text,
     href,
     icon,
-    isFilled = false,
-    borderVisible = false,
     class: className ="",
-    ...rest //additional props that can be passed in
 } = Astro.props as Props;
 
 
@@ -34,10 +31,8 @@ const attributes = icon?.attributes ?? { width: "26", height: "26", fill: "white
 href={href}
 class:list ={[
         "link",
-        className,
-        { filled: isFilled, bordered: borderVisible}
+        className
     ]}
-    {...rest}
 >
     {
         icon && icon.side === "left" && (
@@ -53,7 +48,6 @@ class:list ={[
 </a>
 
 <style>
-    /*text-[#525257]*/
     .link {
         @apply p-1 relative inline-flex justify-between items-center;
     }
