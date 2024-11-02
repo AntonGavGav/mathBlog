@@ -6,6 +6,7 @@ module.exports = {
 		screens:{
 			'xl': {'max': '1130px'},
 			'lg': {'max': '740px'},
+			'md': {'max': '470px'}
 		},
 		fontFamily:{
 			'sans': ['Videotype', 'sans-serif'],
@@ -25,6 +26,9 @@ module.exports = {
 				'light-accent': 'var(--light-accent)',
 			}
 		},
+	},
+	corePlugins: {
+		container: false,
 	},
 	plugins: [],
 }

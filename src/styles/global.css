@@ -11,6 +11,9 @@
 
     /* border */
     --def-width: 3px;
+    @media (max-width: 470px){
+        --def-width: 2px;
+    }
 }
 
 @layer base{
@@ -47,10 +50,9 @@
     /* global attributes */
     html{
         @apply bg-bg-color text-text-primary-color font-sans
-
     }
     body{
-        @apply max-w-[70rem] m-auto h-screen text-xl lg:text-lg
+        @apply max-w-[70rem] m-auto h-screen text-xl lg:text-lg md:text-[16px] md:leading-[18px]
     }
     main{
         @apply pb-24 xl:px-[2rem] lg:px-[1rem]
@@ -61,13 +63,14 @@
         @apply border-def-width bg-dark-accent border-light-accent
     }
     .h1{
-        @apply text-6xl font-black;
+        @apply text-6xl font-black
+        xl:text-5xl lg:text-4xl;
     }
     .h2{
         @apply text-4xl font-bold
     }
     .h3{
-        @apply text-2xl font-bold
+        @apply text-2xl md:text-xl
     }
 
 
@@ -82,7 +85,7 @@
     .scrollbar {
         --sb-track-color: var(--bg-color);
         --sb-thumb-color: var(--light-accent);
-        --sb-size: 15px;
+        --sb-size: 12px;
     }
 
     .scrollbar::-webkit-scrollbar {

@@ -33,9 +33,9 @@ function getTextBasedOnLimit(): string{
 ---
 
 <MainLayout title="Math Blog">
-	<section class="relative mt-4 flex gap-[5%] lg:bg-[url('/images/tool.png')] lg:bg-cover lg:bg-center lg:aspect-[4/3]">
+	<section class="relative mt-4 flex gap-[5%] lg:bg-[url('/images/tool.png')] lg:bg-cover lg:bg-center lg:aspect-[4/3] md:aspect-square">
 		<div class="hidden lg:block black-cover"></div>
-		<div class="flex flex-col justify-center lg:text-center lg:w-[80%] mx-auto z-[1] lg:[container-type:size]">
+		<div class="flex flex-col justify-center lg:text-center lg:w-[80%] md:w-full mx-auto z-[1] lg:[container-type:size]">
 			<h1 class="big-header">Math Blog</h1>
 			<h2 class="big-header-subtext">Created by Shuniji and EventfulLynx915</h2>
 		</div>
@@ -49,9 +49,9 @@ function getTextBasedOnLimit(): string{
 		/>
 	</section>
 	<QuickActions />
-	<section class="mt-14">
+	<section class="mt-14 lg:mt-10 md:mt-8">
 		<h3 class="h1 mb-5">{getTextBasedOnLimit()}</h3>
-		<div class="scrollbar w-full pb-6 flex flex-nowrap gap-10 overflow-x-auto">
+		<div class="scrollbar w-full pb-6 lg:pb-4 md:pb-2 flex flex-nowrap gap-10 lg:gap-4 md:gap-2 overflow-x-auto">
 			{
 				formatedPosts.map((post) => <PostCard post={post} />)
 			}
@@ -93,10 +93,12 @@ function getTextBasedOnLimit(): string{
 		@apply text-[7.5rem] leading-tight text-text-primary-color font-daydream
 		xl:[font-size:clamp(4rem,8vw+1rem,7.5rem)]
 		lg:[font-size:20cqw]
+		md:[font-size:16vw] md:leading-normal
 	}
 	.big-header-subtext{
 		@apply text-[2.5rem] font-bold leading-none text-text-secondary-color mt-3
 		xl:[font-size:clamp(1.5rem,1.5vw+1rem,2.5rem)]
 		lg:[font-size:6cqw]
+		md:[font-size:5vw]
 	}
 </style>

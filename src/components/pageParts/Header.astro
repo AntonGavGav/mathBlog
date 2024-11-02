@@ -1,5 +1,5 @@
 ---
-import { Astronav, MenuItems, MenuIcon, Dropdown, DropdownItems, DropdownSubmenu } from "astro-navbar";
+import { Astronav, MenuItems, MenuIcon, OpenIcon, CloseIcon} from "astro-navbar";
 import navData from "../../ts/navData";
 import Link from "../Link.astro";
 import Icon from "../Icon.astro";
@@ -8,9 +8,9 @@ const attributes = { width: "60", height: "60"};
 ---
 <nav>
     <Astronav id="astro-nav" closeOnClick class="z-10">
-        <div class="relative min-w-full flex justify-between items-center p-3 container">
+        <div class="header container">
             <a href = "/">
-                <Icon icon="logo" isInverted={true} {...attributes} />
+                <Icon class="logo" icon="logo" isInverted={true} />
             </a>
             <div class="flex gap-2 order-1 lg:hidden">
             {navData.map((item) => (
@@ -21,7 +21,7 @@ const attributes = { width: "60", height: "60"};
             ))}
             </div>
 
-            <MenuItems class="hidden absolute z-10 right-[-3px] top-[100%] bg-dark-accent border-r-def-width border-b-def-width border-light-accent">
+            <MenuItems class="hidden absolute z-10 right-[-3px] md:right-[-2px]  top-[100%] bg-dark-accent border-r-def-width border-b-def-width border-light-accent">
                 <ul>
                  {navData.map((item) => (
                     <li>
@@ -30,10 +30,32 @@ const attributes = { width: "60", height: "60"};
                 ))}
                 </ul>
             </MenuItems>
-            <MenuIcon class="order-3 hidden lg:block"/>
+            <div class="order-3 hidden lg:flex items-center">
+                <MenuIcon>
+                    <OpenIcon>
+                        <Icon icon="3lines" class="menu-icon" stroke = "white" />
+                    </OpenIcon>
+                    <CloseIcon>
+                        <Icon icon="cross" class="menu-icon" stroke = "white" />
+                    </CloseIcon>
+                </MenuIcon>
+            </div>
         </div>
     </Astronav>
 </nav>
+
+<style>
+    .header{
+        @apply relative min-w-full flex justify-between items-center p-3
+        md:p-2
+    }
+    .logo{
+        @apply w-14 lg:w-12 md:w-8
+    }
+    .menu-icon{
+        @apply w-8 md:w-6
+    }
+</style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -58,5 +80,4 @@ function closeMenu() {
     }
 
 }
-
 </script>
