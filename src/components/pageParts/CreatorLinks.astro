@@ -10,7 +10,7 @@ interface Props{
 const { githubUrl, instagramUrl, twitterUrl }= Astro.props as Props;
 ---
 
-<section class="px-8 absolute bottom-0 pb-4 flex items-center gap-3">
+<section class="px-8 absolute bottom-0 pb-4 flex items-center gap-3 md:gap-1 md:px-4 md:pb-2">
     <a href={githubUrl}><Icon icon="github" class = "icon" fill="white"/></a>
     <a href={instagramUrl}><Icon icon="instagram" class = "icon" fill="white" stroke="white"/></a>
     <a href={twitterUrl}><Icon icon="twitter" class = "icon" fill="white" stroke="white"/></a>
@@ -23,5 +23,6 @@ const { githubUrl, instagramUrl, twitterUrl }= Astro.props as Props;
     .icon{
         @apply w-[60px] h-[60px]
         xl:w-[45px] xl:h-[45px]
+        md:w-[30px] md:h-[30px]
     }
 </style>
