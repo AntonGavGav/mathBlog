@@ -21,7 +21,7 @@ const attributes = { width: "60", height: "60"};
             ))}
             </div>
 
-            <MenuItems class="hidden absolute z-10 right-[-3px] md:right-[-2px]  top-[100%] bg-dark-accent border-r-def-width border-b-def-width border-light-accent">
+            <MenuItems class="menu-items hidden">
                 <ul>
                  {navData.map((item) => (
                     <li>
@@ -45,6 +45,13 @@ const attributes = { width: "60", height: "60"};
 </nav>
 
 <style>
+    .menu-items{
+        @apply absolute z-10 right-[-3px] top-[100%] bg-dark-accent border-r-def-width border-b-def-width border-light-accent
+        md:right-[-2px]
+    }
+    .menu-items ul{
+        @apply p-2 flex flex-col gap-2
+    }
     .header{
         @apply relative min-w-full flex justify-between items-center p-3
         md:p-2

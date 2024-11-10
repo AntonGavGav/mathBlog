@@ -1,5 +1,5 @@
 ---
-import Link from "../Link.astro";
+import Icon from "../Icon.astro";
 
 interface Props{
     githubUrl: string,
@@ -10,20 +10,18 @@ interface Props{
 const { githubUrl, instagramUrl, twitterUrl }= Astro.props as Props;
 ---
 
-<section class="px-8 pb-4">
-    <Link text="" href={githubUrl} icon={{
-        name: "github",
-        side: "right",
-        attributes: { width: "60", height: "60", fill: "white" },
-    }}  />
-    <Link text="" href={instagramUrl} icon={{
-        name: "instagram",
-        side: "right",
-        attributes: { width: "60", height: "60", stroke: "white" },
-    }}  />
-    <Link text="" href={twitterUrl} icon={{
-        name: "twitter",
-        side: "right",
-        attributes: { width: "60", height: "60", stroke: "white" },
-    }}  />
+<section class="px-8 absolute bottom-0 pb-4 flex items-center gap-3">
+    <a href={githubUrl}><Icon icon="github" class = "icon" fill="white"/></a>
+    <a href={instagramUrl}><Icon icon="instagram" class = "icon" fill="white" stroke="white"/></a>
+    <a href={twitterUrl}><Icon icon="twitter" class = "icon" fill="white" stroke="white"/></a>
 </section>
+
+<style>
+    a{
+        @apply p-1
+    }
+    .icon{
+        @apply w-[60px] h-[60px]
+        xl:w-[45px] xl:h-[45px]
+    }
+</style>

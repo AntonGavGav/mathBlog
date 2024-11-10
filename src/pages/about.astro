@@ -17,36 +17,54 @@ const eventfullynx = creatorData["EventfulLynx915"];
 ---
 
 <MainLayout title="About Creators">
-    <section class="mt-12 container w-full pb-10" id="gamified-list-container">
+    <div id = "temp">
+        <div class = "bg-green-600 xl:hidden">no query</div>
+        <div class = "bg-blue-500 hidden xl:block lg:hidden md:hidden">xl</div>
+        <div class = "bg-orange-400 hidden xl:hidden lg:block md:hidden">lg</div>
+        <div class = "bg-yellow-300 hidden xl:hidden lg:hidden md:block">md</div>
+    </div>
+
+    <!--delete the part above later-->
+
+
+
+
+    <section class="mt-12 container w-full pb-10 lg:pb-5 md:pb-3" id="gamified-list-container">
         <header
-            class="w-full h-10 chessboard-bg"
-            style={{"backgroundSize": "20px 20px"}}
+            class="w-full h-10 md:h-6 chessboard-bg bg-[length:20px_20px] md:bg-[length:12px_12px]"
         ></header>
-        <h1 class="main-text font-november text-center mt-12 pb-4">ABOUT US</h1>
-        <ul id="gamified-list" class="px-8 [&>li]:mb-2">
-            <li data-id="0">some text about us that can be pretty long so we gotta do it carefully cause who knows how long it will be and that is what i be testing right at the moment so I can be sure</li>
-            <li data-id="1">in my professional opinion it looks pretty decent and I would keep it that way</li>
-            <li data-id="2">third part about something small I guess</li>
-            <li data-id="3">We gotta keep a big amount of this parts cause I like the way it looks</li>
-            <li data-id="3">Big amount of text, we can come up with something for sure to write here</li>
-            <li data-id="3">And maybe one more for just some styling</li>
+        <h1 class="main-text">ABOUT US</h1>
+        <ul id="gamified-list" class="px-8 [&>li]:mb-2 md:px-4">
+            <li >some text about us that can be pretty long so we gotta do it carefully cause who knows how long it will be and that is what i be testing right at the moment so I can be sure</li>
+            <li>in my professional opinion it looks pretty decent and I would keep it that way</li>
+            <li >third part about something small I guess</li>
+            <li>We gotta keep a big amount of this parts cause I like the way it looks</li>
+            <li >Big amount of text, we can come up with something for sure to write here</li>
+            <li >And maybe one more for just some styling</li>
         </ul>
     </section>
 
-    <section class="flex justify-between mt-5">
+
+
+
+    <section class="flex justify-between mt-5 lg:flex-col">
+
+        <!--Shuniji-->
         <article class="container">
             <div class="creator-presentation-container">
-                <div class="h-[330px] w-[16%] overflow-hidden">
-                    <h2
-                            style="transform: scale(-1); writing-mode: vertical-lr;"
-                    >{shuniji.name.toUpperCase()}</h2>
+                <div class="xl:hidden h-[330px] w-[4.5rem] overflow-hidden">
+                    <h2 class = "shuniji_name">{shuniji.name.toUpperCase()}</h2>
                 </div>
                 <Image
                         src={shuniji.imagePath}
                         width={330}
                         height={330}
+                        class = "creator-presentation-image"
                         alt = "Shuniji pic"
                 />
+                <h3 class = "hidden xl:block absolute text-[14vw] mt-4 leading-none font-november text-center">
+                    SHUN<br />IJI
+                </h3>
             </div>
             <p class="description">{shuniji.description}</p>
             <CreatorLinks
@@ -55,15 +73,21 @@ const eventfullynx = creatorData["EventfulLynx915"];
                 twitterUrl = {shuniji.urls.twitter}
             />
         </article>
+
+        <!--EventfulLynx915-->
         <article class="container">
             <div class="creator-presentation-container">
                 <Image
                         src={eventfullynx.imagePath}
                         width={330}
                         height={330}
+                        class = "creator-presentation-image"
                         alt = "EventfulLynx pic"
                 />
-                <div class="h-[330px] w-[17%] overflow-hidden inline-block">
+                <h3 class = "hidden xl:block absolute text-[10vw] mt-4 leading-none font-november text-center">
+                    EVENT<br />FULLY<br>NX915
+                </h3>
+                <div class="xl:hidden h-[330px] w-[4.5rem] overflow-hidden">
                     <h2
                         class = "scrollable-text"
                     >{eventfullynx.name.toUpperCase()} </h2>
@@ -87,6 +111,52 @@ const eventfullynx = creatorData["EventfulLynx915"];
 
 
 <style>
+    .main-text{
+        @apply font-november text-center mt-12 pb-12 text-7xl
+        lg:mt-8 lg:pb-8
+        md:text-[2.5rem] md:mt-6 md:pb-4
+    }
+
+    .bg-size-20by20{
+        background-size: 20px 20px;
+    }
+    .bg-size-15by15{
+        background-size: 15px 15px;
+    }
+
+    article{
+        @apply w-[49%] relative pb-24 xl:pb-16
+    }
+    .creator-presentation-container{
+        @apply flex justify-between items-center pt-12 px-10 relative
+        xl:justify-center
+    }
+    .creator-presentation-image{
+        @apply w-[330px] h-[330px]
+        xl:w-full xl:h-full xl:p-1
+    }
+    .shuniji_name{
+        transform: scale(-1);
+        writing-mode: vertical-lr;
+    }
+
+    h2{
+        height: fit-content;
+        font-size: 5.2rem;
+        line-height: 1;
+    }
+
+    .description{
+        @apply pl-10 pr-28 pt-6 pb-4
+        xl:px-8
+    }
+
+    .scrollable-text{
+        display:inline-block;
+        writing-mode: vertical-rl;
+        animation: vertical-scroll 10s infinite linear normal;
+    }
+
     @keyframes vertical-scroll {
         0% {
             transform: translate(0, 0);
@@ -94,26 +164,6 @@ const eventfullynx = creatorData["EventfulLynx915"];
         100% {
             transform: translate(0, -100%);
         }
-    }
-    article{
-        @apply w-[49%]
-    }
-    .creator-presentation-container{
-        @apply flex justify-between items-center pt-12 px-10 relative
-    }
-    h2{
-        height: fit-content;
-        font-size: 5.2rem;
-        line-height: 1;
-    }
-    .scrollable-text{
-        display:inline-block;
-        writing-mode: vertical-rl;
-        animation: vertical-scroll 10s infinite linear normal;
-    }
-
-    .description{
-        @apply pl-10 pr-28 pt-6 pb-4
     }
 </style>
 
