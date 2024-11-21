@@ -22,7 +22,7 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
 </template>
 
 <template id="caption">
-    <caption class="text-3xl mt-36">Search <br />something</caption>
+    <caption class="text-3xl mt-36 xl:hidden">Search <br />something</caption>
 </template>
 
 <template id="loaderTemplate">
@@ -32,7 +32,18 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
 </template>
 
 
-<aside class="flex flex-col">
+
+
+
+<aside class="flex flex-col relative">
+
+    <div
+        id="blurBg"
+        class="hidden fixed inset-0 backdrop-blur z-20"
+    >
+
+    </div>
+
     <div class="search-bar">
         <div class="absolute inset-y-0 start-3 flex items-center ps-3 pointer-events-none">
             <Icon icon="search" width={37} height={37} fill="white" />
@@ -57,6 +68,8 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
             <Icon icon="cross" width="34" height="34" stroke="white"></Icon>
         </button>
     </div>
+
+
     <div class="result-container scrollbar">
         <div class="relative w-[98%]" dir="ltr">
             <p id="searchReadout"></p>
@@ -87,15 +100,14 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     }
 
     .result-container{
+        @apply h-full overflow-y-auto
+        xl:z-30 xl:absolute xl:w-full xl:mt-20 xl:h-[32rem];
         direction: rtl;
-        height: 100%;
-        overflow-y: auto;
     }
     table{
         position: absolute;
         width: 100%;
     }
-
     p{
         @apply text-sm
     }
@@ -108,7 +120,7 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     }
 
     .search-bar{
-        @apply relative w-full mb-4 flex items-center
+        @apply relative w-full mb-4 flex items-center z-30
     }
     .search-input{
         @apply block w-full text-4xl font-normal h-full p-4 ps-20 bg-dark-accent border-def-width focus:border-light-accent focus:rounded-none
@@ -150,6 +162,8 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     const searchReadout = document.getElementById("searchReadout") as HTMLElement;
     const searchResultList = document.getElementById("searchResultList") as HTMLElement;
 
+    const blurBg = document.getElementById("blurBg") as HTMLElement;
+    const clearSearchButton = document.getElementById("clearSearch");
 
     showCaption();
 
@@ -235,6 +249,23 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         fillOutResultList(searchResult);
     }
 
+    function clearSearch() {
+        search.value = "";
+        updateSearchReadout("");
+        showCaption();
+        hideBlurBg();
+        clearSearchButton.style.visibility = "hidden";
+    }
+    function toggleClearButton() {
+        clearSearchButton.style.visibility = search.value ? "visible" : "hidden";
+    }
+    function showBlurBg(){
+        blurBg.classList.remove("hidden");
+    }
+    function hideBlurBg(){
+        blurBg.classList.add("hidden");
+    }
+
 
     //event listeners
     search.addEventListener("input", ():void => {
@@ -242,18 +273,14 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         updateSearchReadout(searchTerm);
         fetchSearchResults(searchTerm);
         toggleClearButton();
-    })
-
-    const clearSearchButton = document.getElementById("clearSearch");
-    function clearSearch() {
-        search.value = "";
-        updateSearchReadout("");
-        showCaption();
-        clearSearchButton.style.visibility = "hidden";
-    }
-    function toggleClearButton() {
-        clearSearchButton.style.visibility = search.value ? "visible" : "hidden";
-    }
-
+    });
+    search.addEventListener("focus", showBlurBg);
     clearSearchButton.addEventListener("click", clearSearch);
+    blurBg.addEventListener("click", clearSearch);
+    document.addEventListener("keydown", (event) => {
+       if (event.key === "Escape" && !blurBg.classList.contains("hidden")){
+            clearSearch();
+            search.blur();
+       }
+    });
 </script>

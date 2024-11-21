@@ -22,8 +22,8 @@ const formatedPosts = formatBlogPosts(blogEntries,{
 
 ---
 <MainLayout title="Whole Blog">
-    <section class = "mt-12 flex xl:block gap-4">
-        <div class="relative h-fit">
+    <section class ="mt-12 flex gap-4">
+        <div class="relative h-fit xl:hidden">
             <PostCard post={pinnedPost} />
             <Icon
                 icon="push_pin"
@@ -32,8 +32,19 @@ const formatedPosts = formatBlogPosts(blogEntries,{
                 class="absolute top-[-40px] left-1/2 translate-x-[-95%]"
             />
         </div>
-        <Search />
+        <div class="xl:w-full">
+            <Search />
+        </div>
     </section>
+
+    <div class="hidden relative h-fit xl:block w-fit mx-auto mt-8 mb-2">
+        <PostCard post={pinnedPost} />
+        <Icon
+            icon="push_pin"
+            class="w-14 h-14 absolute top-[-35px] left-[42%]"
+        />
+    </div>
+
 
     <QuickActions />
     <section class="my-8">
@@ -53,45 +64,22 @@ const formatedPosts = formatBlogPosts(blogEntries,{
             })}
         </section>
 
-        <table id="post-grid-wrapper" class="w-full table-fixed hidden">
-            <tbody>
-            {formatedPosts.map((post, index) => {
-                const isLastOddPost = formatedPosts.length % 2 !== 0 && index === formatedPosts.length - 1;
-                if (isLastOddPost) {
-                    return (
-                        <tr>
-                            <td>
-                                <PostMiniCard post={post} />
-                            </td>
-                        </tr>
-                    );
-                }
-                if (index % 2 === 0) {
-                    return (
-                        <tr>
-                            <td>
-                                <PostMiniCard post={post} />
-                            </td>
-                            <td>
-                                {formatedPosts[index + 1] && <PostMiniCard post={formatedPosts[index + 1]} />}
-                            </td>
-                        </tr>
-                    );
-                }
-                return null;
-            })}
-            </tbody>
-        </table>
-
+        <section id="post-grid-wrapper" class = "hidden">
+            <div class="flex flex-wrap gap-4 justify-between">
+                {formatedPosts.map((post) => (
+                    <div class="post-item">
+                        <PostMiniCard post={post} />
+                    </div>
+                ))}
+            </div>
+        </section>
     </section>
 </MainLayout>
 
 <style>
-    .hidden{
-        display:none;
-    }
-    table td{
-        @apply pb-4;
+    .post-item{
+        flex: 1 1 calc(50% - 4rem);
+        max-width: calc(50% - 4rem);
     }
 </style>
 <script>
