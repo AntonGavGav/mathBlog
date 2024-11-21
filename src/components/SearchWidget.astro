@@ -5,6 +5,7 @@ import Icon from "./Icon.astro";
 const rows = Array.from({length: 10}, (_, i) => i + 1);
 ---
 
+
 <template id="listItemTemplate">
     <tr>
         <td>
@@ -31,11 +32,12 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
 </template>
 
 
-<aside class=" flex flex-col">
+<aside class="flex flex-col">
     <div class="search-bar">
         <div class="absolute inset-y-0 start-3 flex items-center ps-3 pointer-events-none">
             <Icon icon="search" width={37} height={37} fill="white" />
         </div>
+        <label for="search"></label>
         <input
             type="text"
             required
@@ -46,6 +48,14 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
             id="search"
             autocomplete="off"
         />
+        <button
+            id="clearSearch"
+            class = "absolute inset-y-0 end-3 flex items-center pe-3"
+            type="button"
+            style="visibility: hidden;"
+        >
+            <Icon icon="cross" width="34" height="34" stroke="white"></Icon>
+        </button>
     </div>
     <div class="result-container scrollbar">
         <div class="relative w-[98%]" dir="ltr">
@@ -72,6 +82,9 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         top: 50%;
         transform:scale(0.8) translate(-50%, -50%);
     }
+    #clearSearch {
+        cursor: pointer;
+    }
 
     .result-container{
         direction: rtl;
@@ -95,7 +108,7 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     }
 
     .search-bar{
-        @apply relative w-full mb-4
+        @apply relative w-full mb-4 flex items-center
     }
     .search-input{
         @apply block w-full text-4xl font-normal h-full p-4 ps-20 bg-dark-accent border-def-width focus:border-light-accent focus:rounded-none
@@ -228,5 +241,19 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         const searchTerm:string = DOMPurify.sanitize(search.value);
         updateSearchReadout(searchTerm);
         fetchSearchResults(searchTerm);
+        toggleClearButton();
     })
+
+    const clearSearchButton = document.getElementById("clearSearch");
+    function clearSearch() {
+        search.value = "";
+        updateSearchReadout("");
+        showCaption();
+        clearSearchButton.style.visibility = "hidden";
+    }
+    function toggleClearButton() {
+        clearSearchButton.style.visibility = search.value ? "visible" : "hidden";
+    }
+
+    clearSearchButton.addEventListener("click", clearSearch);
 </script>

@@ -22,7 +22,7 @@ const formatedPosts = formatBlogPosts(blogEntries,{
 
 ---
 <MainLayout title="Whole Blog">
-    <section class = "mt-12 flex gap-4">
+    <section class = "mt-12 flex xl:block gap-4">
         <div class="relative h-fit">
             <PostCard post={pinnedPost} />
             <Icon
@@ -34,6 +34,7 @@ const formatedPosts = formatBlogPosts(blogEntries,{
         </div>
         <Search />
     </section>
+
     <QuickActions />
     <section class="my-8">
         <div class="mb-8 flex justify-between items-end">
@@ -44,7 +45,7 @@ const formatedPosts = formatBlogPosts(blogEntries,{
             </div>
         </div>
 
-        <section id="post-list-wrapper">
+        <section id="post-list-wrapper" class="hidden">
             {formatedPosts.map((post, index) => {
                 return(
                         <PostListCard post={post} />
@@ -94,37 +95,60 @@ const formatedPosts = formatBlogPosts(blogEntries,{
     }
 </style>
 <script>
-    const listButton = document.getElementById("show-line-posts") as HTMLElement;
-    const gridButton = document.getElementById("show-grid-posts") as HTMLElement;
-    const postListWrapper = document.getElementById("post-list-wrapper") as HTMLElement;
-    const postGridWrapper = document.getElementById("post-grid-wrapper") as HTMLElement;
 
-    let listWrapperShown = true;
-    listButton.classList.add("hidden");
+   document.addEventListener("DOMContentLoaded", () => {
+    const listButton = document.getElementById("show-line-posts");
+    const gridButton = document.getElementById("show-grid-posts");
+    const postListWrapper = document.getElementById("post-list-wrapper");
+    const postGridWrapper = document.getElementById("post-grid-wrapper");
 
-    //slow transition to the top and a check if already shown
-    listButton.addEventListener("click", () => {
-        if(!listWrapperShown) {
+    postListWrapper.classList.add("hidden");
+    postGridWrapper.classList.add("hidden");
+
+    const preferredPostsView = localStorage.getItem("postsView") || "list";
+
+    if (preferredPostsView === "grid") {
+        postGridWrapper.classList.remove("hidden");
+        gridButton.classList.add("hidden");
+        listButton.classList.remove("hidden");
+    } else {
+        postListWrapper.classList.remove("hidden");
+        listButton.classList.add("hidden");
+        gridButton.classList.remove("hidden");
+    }
+
+    let listWrapperShown = (preferredPostsView === "list");
+
+    listButton.addEventListener("click", showList);
+    gridButton.addEventListener("click", showGrid);
+
+    function showList() {
+        if (!listWrapperShown) {
             postListWrapper.classList.remove("hidden");
             postGridWrapper.classList.add("hidden");
 
             listButton.classList.add("hidden");
             gridButton.classList.remove("hidden");
 
+            localStorage.setItem("postsView", "list");
             listWrapperShown = true;
         }
-    })
-    gridButton.addEventListener("click", () => {
-        if(listWrapperShown) {
+    }
+
+    function showGrid() {
+        if (listWrapperShown) {
             postListWrapper.classList.add("hidden");
             postGridWrapper.classList.remove("hidden");
 
             listButton.classList.remove("hidden");
             gridButton.classList.add("hidden");
 
+            localStorage.setItem("postsView", "grid");
             listWrapperShown = false;
         }
-    })
+    }
+});
+
 
 </script>
 
