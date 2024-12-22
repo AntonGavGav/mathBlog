@@ -48,8 +48,8 @@ const formatedPosts = formatBlogPosts(blogEntries,{
 
     <QuickActions />
 
-    <section class="my-8">
-        <div class="mb-8 flex justify-between items-start gap-2">
+    <section class="my-8 md:my-4">
+        <div class="mb-8 lg:my-2 md:my-0 flex justify-between items-start gap-2">
             <h1 class="h1">Whole blog:</h1>
             <div>
                 <button id="show-grid-posts"><Icon icon="grid" class="show-style-icon" width={45} height={45} stroke="white"/></button>
@@ -69,7 +69,7 @@ const formatedPosts = formatBlogPosts(blogEntries,{
 
 
         <section id="post-grid-wrapper" class = "hidden">
-            <div class="flex flex-wrap justify-between">
+            <div class="flex flex-wrap justify-between gap-y-4 lg:gap-y-2 md:gap-y-0">
                 {formatedPosts.map((post) => (
                     <div class="post-item">
                         <PostMiniCard post={post} />

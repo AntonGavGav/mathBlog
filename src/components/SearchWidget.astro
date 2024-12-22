@@ -9,9 +9,9 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
 <template id="listItemTemplate">
     <tr>
         <td>
-            <div class="bg-dark-accent my-2 p-3">
-                <a class="inline-block text-4xl my-4" id="title"></a>
-                <div class="flex w-2/3 items-center justify-between">
+            <div class="bg-dark-accent my-2 lg:my-0 p-3">
+                <a class="inline-block text-4xl my-4 lg:my-2 md:text-2xl md:my-1" id="title"></a>
+                <div class="flex w-2/3 items-center justify-between md:w-full">
                     <p id="author"></p>
                     <p id="date"></p>
                     <p id="time"></p>
@@ -111,7 +111,8 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
 
     .result-container{
         @apply h-[22.9rem] overflow-y-auto pointer-events-none
-        xl:z-30 xl:absolute xl:w-full xl:mt-20 xl:h-[32rem];
+        xl:z-30 xl:absolute xl:w-full xl:mt-20 xl:h-[32rem]
+        md:h-[20rem];
         direction: rtl;
     }
      table{
@@ -130,7 +131,7 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     }
 
     .search-bar{
-        @apply relative w-full mb-4 flex items-center z-30 
+        @apply relative w-full mb-4 flex items-center z-30
     }
     .search-input{
         @apply block w-full text-4xl font-normal h-full p-4 ps-20 bg-dark-accent border-def-width

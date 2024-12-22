@@ -44,11 +44,16 @@ const readingTime = getReadingTime(post.body);
     .link-image{
         @apply relative aspect-[16/12] bg-no-repeat bg-cover bg-center flex-shrink-0 w-[15rem]
         xl:w-[11rem]
+        md:w-[8rem]
     }
     .text-container{
         @apply flex-1 self-stretch flex flex-col justify-around pl-4;
     }
     .blog-title{
         @apply text-4xl leading-none max-w-full line-clamp-3 xl:line-clamp-2
+        lg:text-2xl
+    }
+    p{
+        @apply md:text-sm
     }
 </style>
