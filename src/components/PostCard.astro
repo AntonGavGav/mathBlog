@@ -29,7 +29,7 @@ const readingTime = getReadingTime(post.body);
             class="bg-bg-color w-fit m-auto h3 no-padding md:text-xs"
         >{formatDate(date)}</p>
     </header>
-    <div class="w-[90%] mx-auto mt-4 ">
+    <div class="w-[90%] mx-auto mt-4 lg:mt-2">
         <a href={url}
            class="link-image"
            style={`background-image: url(${image.src});`}
@@ -40,7 +40,7 @@ const readingTime = getReadingTime(post.body);
             </p>
         </a>
 
-        <section class="pb-4 md:pb-1 flex gap-4 items-center">
+        <section class="pb-4 md:pb-2 flex gap-4 items-center">
             <Icon icon="clock" class="w-10 lg:w-8 md:w-6" stroke="white"/>
             <p>{readingTime}</p>
             <div class="ml-8">

@@ -4,6 +4,7 @@ module.exports = {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		screens:{
+			// keep in mind that if you want to change the sizes go to showBlurBg in SearchWidget.astro and change the media there as well
 			'xl': {'max': '1130px'},
 			'lg': {'max': '740px'},
 			'md': {'max': '470px'}

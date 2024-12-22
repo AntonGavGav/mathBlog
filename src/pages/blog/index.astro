@@ -22,7 +22,7 @@ const formatedPosts = formatBlogPosts(blogEntries,{
 
 ---
 <MainLayout title="Whole Blog">
-    <section class ="mt-12 flex gap-4">
+    <section class ="mt-12 flex gap-4 md:mt-6">
         <div class="relative h-fit xl:hidden">
             <PostCard post={pinnedPost} />
             <Icon
@@ -37,24 +37,26 @@ const formatedPosts = formatBlogPosts(blogEntries,{
         </div>
     </section>
 
-    <div class="hidden relative h-fit xl:block w-fit mx-auto mt-8 mb-2">
+    <div class="hidden relative h-fit xl:block w-fit mx-auto mt-8 mb-2 lg:mt-4">
         <PostCard post={pinnedPost} />
         <Icon
             icon="push_pin"
-            class="w-14 h-14 absolute top-[-35px] left-[42%]"
+            class="w-14 h-14 absolute top-[-35px] left-[42%] lg:w-10 lg:h-10 lg:top-[-20px]"
         />
     </div>
 
 
     <QuickActions />
+
     <section class="my-8">
-        <div class="mb-8 flex justify-between items-end">
+        <div class="mb-8 flex justify-between items-start gap-2">
             <h1 class="h1">Whole blog:</h1>
             <div>
-                <button id="show-grid-posts"><Icon icon="grid" width={45} height={45} stroke="white"/></button>
-                <button id="show-line-posts"><Icon icon="list" width={45} height={45} stroke="white"/></button>
+                <button id="show-grid-posts"><Icon icon="grid" class="show-style-icon" width={45} height={45} stroke="white"/></button>
+                <button id="show-line-posts"><Icon icon="list" class="show-style-icon" width={45} height={45} stroke="white"/></button>
             </div>
         </div>
+
 
         <section id="post-list-wrapper" class="hidden">
             {formatedPosts.map((post, index) => {
@@ -64,8 +66,10 @@ const formatedPosts = formatBlogPosts(blogEntries,{
             })}
         </section>
 
+
+
         <section id="post-grid-wrapper" class = "hidden">
-            <div class="flex flex-wrap gap-4 justify-between">
+            <div class="flex flex-wrap justify-between">
                 {formatedPosts.map((post) => (
                     <div class="post-item">
                         <PostMiniCard post={post} />
@@ -78,8 +82,11 @@ const formatedPosts = formatBlogPosts(blogEntries,{
 
 <style>
     .post-item{
-        flex: 1 1 calc(50% - 4rem);
-        max-width: calc(50% - 4rem);
+        @apply max-w-[50%] lg:basis-full lg:max-w-full lg:my-1;
+
+    }
+    .show-style-icon{
+        @apply xl:w-10 md:w-8
     }
 </style>
 <script>

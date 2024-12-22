@@ -40,13 +40,17 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     <div
         id="blurBg"
         class="hidden fixed inset-0 backdrop-blur z-20"
-    >
-
-    </div>
+    ></div>
 
     <div class="search-bar">
-        <div class="absolute inset-y-0 start-3 flex items-center ps-3 pointer-events-none">
-            <Icon icon="search" width={37} height={37} fill="white" />
+        <div class="absolute inset-y-0 start-3 flex items-center ps-3 pointer-events-none lg:ps-2 md:ps-0.5 md:start-2">
+            <Icon
+                icon="search"
+                width={37}
+                height={37}
+                class="lg:w-9 md:w-5"
+                stroke="white"
+            />
         </div>
         <label for="search"></label>
         <input
@@ -61,11 +65,17 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         />
         <button
             id="clearSearch"
-            class = "absolute inset-y-0 end-3 flex items-center pe-3"
+            class = "absolute inset-y-0 end-3 flex items-center pe-3 md:pe-0.5"
             type="button"
             style="visibility: hidden;"
         >
-            <Icon icon="cross" width="34" height="34" stroke="white"></Icon>
+            <Icon
+                icon="cross"
+                width="34"
+                height="34"
+                class="md:w-6"
+                stroke="white"
+            />
         </button>
     </div>
 
@@ -100,7 +110,7 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     }
 
     .result-container{
-        @apply h-full overflow-y-auto
+        @apply h-[22.9rem] overflow-y-auto pointer-events-none
         xl:z-30 xl:absolute xl:w-full xl:mt-20 xl:h-[32rem];
         direction: rtl;
     }
@@ -120,10 +130,13 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     }
 
     .search-bar{
-        @apply relative w-full mb-4 flex items-center z-30
+        @apply relative w-full mb-4 flex items-center z-30 
     }
     .search-input{
-        @apply block w-full text-4xl font-normal h-full p-4 ps-20 bg-dark-accent border-def-width focus:border-light-accent focus:rounded-none
+        @apply block w-full text-4xl font-normal h-full p-4 ps-20 bg-dark-accent border-def-width
+        focus:border-light-accent focus:rounded-none
+        lg:text-2xl
+        md:p-2 md:ps-10 md:text-xl
     }
 </style>
 
@@ -260,7 +273,9 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         clearSearchButton.style.visibility = search.value ? "visible" : "hidden";
     }
     function showBlurBg(){
-        blurBg.classList.remove("hidden");
+        if(window.matchMedia("(max-width: 1130px)").matches){
+            blurBg.classList.remove("hidden");
+        }
     }
     function hideBlurBg(){
         blurBg.classList.add("hidden");
