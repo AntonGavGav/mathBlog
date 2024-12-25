@@ -24,7 +24,6 @@ const { title } = Astro.props as Props;
     <body>
         <Header/>
         <slot name="after-header" />
-        <Icon icon="arrow_up" class="block m-auto mt-5 mb-10" width={35} height={35} fill="white" transform="scale(1, -1)"/>
         <main class="post-content">
             <slot />
         </main>
@@ -33,7 +32,11 @@ const { title } = Astro.props as Props;
 
 
 <style>
+    html{
+        scroll-behavior: smooth;
+    }
     main{
         font-family: "Inter", sans-serif;
+        @apply mt-12;
     }
 </style>

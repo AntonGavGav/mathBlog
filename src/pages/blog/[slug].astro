@@ -6,6 +6,7 @@ import { formatDate, getReadingTime } from "../../ts/utils.ts"
 //layout import
 import PostLayout from "../../layouts/PostLayout.astro";
 import Icon from "../../components/Icon.astro";
+import navData from "../../ts/navData";
 
 
 
@@ -29,27 +30,42 @@ const { entry } = Astro.props as Props;
 const { title, author, image, date } = entry.data;
 const readingTime = getReadingTime(entry.body);
 const { Content } = await entry.render();
+
+const getLinkByName = (name: string): string | undefined => {
+    const navItem = navData.find(item => item.name == name);
+    return navItem?.path;
+};
+const blogPath = getLinkByName("Blog");
 ---
 <!--implement a better snap scroll-->
 <PostLayout title={title} >
     <section slot="after-header">
-        <h1 class="blog-title">{title}</h1>
-        <h2 class="pb-4 pt-2">Written by: {author}</h2>
         <div
-           class="link-image"
+           class="link-image my-4"
            style={`background-image: url(${image.src});`}
         ></div>
-        <section class="pt-4 flex gap-12 items-center">
-            <div class="flex items-center gap-4">
-                <Icon icon="clock" width={35} height={35} stroke="white"/>
-                <p>{readingTime}</p>
+        <section class="container py-3 px-8">
+            <div class="w-full flex gap-8 justify-between">
+                <h1 class="blog-title">{title}</h1>
+                <div class="flex flex-col items-center justify-center">
+                    <a href = {blogPath}><Icon icon="arrow_up" class="arrow" width={35} height={35} fill="white"/></a>
+                    <a href = "#content"><Icon icon="arrow_up" class="arrow" width={35} height={35} fill="white" transform="scale(1, -1)"/></a>
+                </div>
             </div>
-            <p>{author}</p>
-            <p>{formatDate(date)}</p>
+            <div class="pt-4 flex gap-12 items-center">
+                <h2 class="pb-4 pt-2">Written by: {author}</h2>
+                <div class="flex items-center gap-4">
+                    <Icon icon="clock" width={35} height={35} stroke="white"/>
+                    <p>{readingTime}</p>
+                </div>
+                <p>{author}</p>
+                <p>{formatDate(date)}</p>
+            </div>
         </section>
     </section>
 
-    <section class="markdown-content">
+
+    <section id="content" class="markdown-content">
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
@@ -62,18 +78,21 @@ const { Content } = await entry.render();
 
 
 <style>
+    .arrow{
+        @apply w-20 h-20;
+    }
     .link-image{
         display: block;
         aspect-ratio: 16/10;
-        margin: 0 4rem;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
     }
     .blog-title{
-        @apply text-8xl font-november mt-8 leading-none w-full;
+        @apply text-[6rem] font-november mt-8 leading-none;
     }
     h2{
         @apply text-2xl leading-none w-full;
     }
+
 </style>
