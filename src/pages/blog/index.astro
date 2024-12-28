@@ -22,8 +22,8 @@ const formatedPosts = formatBlogPosts(blogEntries,{
 
 ---
 <MainLayout title="Whole Blog">
-    <section class = "mt-12 flex gap-4">
-        <div class="relative h-fit">
+    <section class ="mt-12 flex gap-4 md:mt-6">
+        <div class="relative h-fit xl:hidden">
             <PostCard post={pinnedPost} />
             <Icon
                 icon="push_pin"
@@ -32,19 +32,33 @@ const formatedPosts = formatBlogPosts(blogEntries,{
                 class="absolute top-[-40px] left-1/2 translate-x-[-95%]"
             />
         </div>
-        <Search />
+        <div class="xl:w-full">
+            <Search />
+        </div>
     </section>
+
+    <div class="hidden relative h-fit xl:block w-fit mx-auto mt-8 mb-2 lg:mt-4">
+        <PostCard post={pinnedPost} />
+        <Icon
+            icon="push_pin"
+            class="w-14 h-14 absolute top-[-35px] left-[42%] lg:w-10 lg:h-10 lg:top-[-20px]"
+        />
+    </div>
+
+
     <QuickActions />
-    <section class="my-8">
-        <div class="mb-8 flex justify-between items-end">
+
+    <section class="my-8 md:my-4">
+        <div class="mb-8 lg:my-2 md:my-0 flex justify-between items-start gap-2">
             <h1 class="h1">Whole blog:</h1>
             <div>
-                <button id="show-grid-posts"><Icon icon="grid" width={45} height={45} stroke="white"/></button>
-                <button id="show-line-posts"><Icon icon="list" width={45} height={45} stroke="white"/></button>
+                <button id="show-grid-posts"><Icon icon="grid" class="show-style-icon" width={45} height={45} stroke="white"/></button>
+                <button id="show-line-posts"><Icon icon="list" class="show-style-icon" width={45} height={45} stroke="white"/></button>
             </div>
         </div>
 
-        <section id="post-list-wrapper">
+
+        <section id="post-list-wrapper" class="hidden">
             {formatedPosts.map((post, index) => {
                 return(
                         <PostListCard post={post} />
@@ -52,79 +66,84 @@ const formatedPosts = formatBlogPosts(blogEntries,{
             })}
         </section>
 
-        <table id="post-grid-wrapper" class="w-full table-fixed hidden">
-            <tbody>
-            {formatedPosts.map((post, index) => {
-                const isLastOddPost = formatedPosts.length % 2 !== 0 && index === formatedPosts.length - 1;
-                if (isLastOddPost) {
-                    return (
-                        <tr>
-                            <td>
-                                <PostMiniCard post={post} />
-                            </td>
-                        </tr>
-                    );
-                }
-                if (index % 2 === 0) {
-                    return (
-                        <tr>
-                            <td>
-                                <PostMiniCard post={post} />
-                            </td>
-                            <td>
-                                {formatedPosts[index + 1] && <PostMiniCard post={formatedPosts[index + 1]} />}
-                            </td>
-                        </tr>
-                    );
-                }
-                return null;
-            })}
-            </tbody>
-        </table>
 
+
+        <section id="post-grid-wrapper" class = "hidden">
+            <div class="flex flex-wrap justify-between gap-y-4 lg:gap-y-2 md:gap-y-0">
+                {formatedPosts.map((post) => (
+                    <div class="post-item">
+                        <PostMiniCard post={post} />
+                    </div>
+                ))}
+            </div>
+        </section>
     </section>
 </MainLayout>
 
 <style>
-    .hidden{
-        display:none;
+    .post-item{
+        @apply max-w-[50%] lg:basis-full lg:max-w-full lg:my-1;
+
     }
-    table td{
-        @apply pb-4;
+    .show-style-icon{
+        @apply xl:w-10 md:w-8
     }
 </style>
 <script>
-    const listButton = document.getElementById("show-line-posts") as HTMLElement;
-    const gridButton = document.getElementById("show-grid-posts") as HTMLElement;
-    const postListWrapper = document.getElementById("post-list-wrapper") as HTMLElement;
-    const postGridWrapper = document.getElementById("post-grid-wrapper") as HTMLElement;
 
-    let listWrapperShown = true;
-    listButton.classList.add("hidden");
+   document.addEventListener("DOMContentLoaded", () => {
+    const listButton = document.getElementById("show-line-posts");
+    const gridButton = document.getElementById("show-grid-posts");
+    const postListWrapper = document.getElementById("post-list-wrapper");
+    const postGridWrapper = document.getElementById("post-grid-wrapper");
 
-    //slow transition to the top and a check if already shown
-    listButton.addEventListener("click", () => {
-        if(!listWrapperShown) {
+    postListWrapper.classList.add("hidden");
+    postGridWrapper.classList.add("hidden");
+
+    const preferredPostsView = localStorage.getItem("postsView") || "list";
+
+    if (preferredPostsView === "grid") {
+        postGridWrapper.classList.remove("hidden");
+        gridButton.classList.add("hidden");
+        listButton.classList.remove("hidden");
+    } else {
+        postListWrapper.classList.remove("hidden");
+        listButton.classList.add("hidden");
+        gridButton.classList.remove("hidden");
+    }
+
+    let listWrapperShown = (preferredPostsView === "list");
+
+    listButton.addEventListener("click", showList);
+    gridButton.addEventListener("click", showGrid);
+
+    function showList() {
+        if (!listWrapperShown) {
             postListWrapper.classList.remove("hidden");
             postGridWrapper.classList.add("hidden");
 
             listButton.classList.add("hidden");
             gridButton.classList.remove("hidden");
 
+            localStorage.setItem("postsView", "list");
             listWrapperShown = true;
         }
-    })
-    gridButton.addEventListener("click", () => {
-        if(listWrapperShown) {
+    }
+
+    function showGrid() {
+        if (listWrapperShown) {
             postListWrapper.classList.add("hidden");
             postGridWrapper.classList.remove("hidden");
 
             listButton.classList.remove("hidden");
             gridButton.classList.add("hidden");
 
+            localStorage.setItem("postsView", "grid");
             listWrapperShown = false;
         }
-    })
+    }
+});
+
 
 </script>
 

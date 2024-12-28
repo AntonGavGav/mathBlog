@@ -11,6 +11,9 @@
 
     /* border */
     --def-width: 3px;
+    @media (max-width: 470px){
+        --def-width: 2px;
+    }
 }
 
 @layer base{
@@ -49,27 +52,25 @@
         @apply bg-bg-color text-text-primary-color font-sans
     }
     body{
-        @apply max-w-[70rem] m-auto h-screen text-xl
+        @apply max-w-[70rem] m-auto h-screen text-xl lg:text-lg md:text-[16px] md:leading-[18px]
     }
     main{
-        @apply pb-24
+        @apply pb-24 xl:px-[2rem] lg:px-[1rem]
     }
 
     /*global classes*/
     .container{
         @apply border-def-width bg-dark-accent border-light-accent
     }
-    .main-text{
-        @apply text-[7.5rem] leading-tight font-daydream
-    }
     .h1{
-        @apply text-6xl font-black;
+        @apply text-6xl font-black
+        xl:text-5xl lg:text-4xl;
     }
     .h2{
         @apply text-4xl font-bold
     }
     .h3{
-        @apply text-2xl font-bold
+        @apply text-2xl md:text-xl
     }
 
 
@@ -84,7 +85,7 @@
     .scrollbar {
         --sb-track-color: var(--bg-color);
         --sb-thumb-color: var(--light-accent);
-        --sb-size: 15px;
+        --sb-size: 12px;
     }
 
     .scrollbar::-webkit-scrollbar {
@@ -117,34 +118,43 @@
     }
 
     .post-content h1 {
-        @apply font-sans text-5xl font-bold mb-4;
+        @apply font-sans text-5xl font-bold mb-4
+        xl:mb-2
+        lg:text-4xl
+        md:text-3xl;
     }
 
     .post-content h2 {
-        @apply font-sans text-3xl mb-2;
+        @apply font-sans text-3xl mb-2
+        xl:mb-1
+        md:text-2xl;
     }
 
     .post-content p + h1,
     .post-content p + h2 {
-        @apply mt-8;
+        @apply mt-8
+        lg:mt-6
+        md:mt-4;
     }
 
     .post-content strong {
-        font-weight: 800;
+        font-weight: 700;
     }
 
     .post-content ul ul,
     .post-content ul ol,
     .post-content ol ul,
     .post-content ol ol {
-        @apply ml-6;
+        @apply ml-6
+        md:ml-4;
     }
 
     .post-content ul + ol,
     .post-content ol + ul,
     .post-content ul + ul,
     .post-content ol + ol {
-        @apply mt-4;
+        @apply mt-4
+        md:mt-2;
     }
 
     .post-content ul,
@@ -162,7 +172,9 @@
     }
 
     .post-content .astro-code {
-        @apply my-6 px-6 py-10 text-xl;
+        @apply my-6 px-6 py-10 text-xl
+        lg:text-lg lg:px-4 lg:py-6 lg:leading-tight
+        md:text-[16px] md:px-1 md:py-1 md:my-4;
     }
 
     .post-content p code {
@@ -175,6 +187,7 @@
         white-space: pre-wrap;
         word-wrap: break-word;
         vertical-align: middle;
+        @apply lg:py-0 lg:px-0
     }
 
     .post-content p img {

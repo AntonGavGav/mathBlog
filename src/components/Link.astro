@@ -11,8 +11,6 @@ interface Props{
         side: "left" | "right";
         attributes?: any;
     };
-    isFilled?: boolean;
-    borderVisible?: boolean;
     class?: string;
 }
 
@@ -20,10 +18,7 @@ const {
     text,
     href,
     icon,
-    isFilled = false,
-    borderVisible = false,
     class: className ="",
-    ...rest //additional props that can be passed in
 } = Astro.props as Props;
 
 
@@ -34,28 +29,26 @@ const attributes = icon?.attributes ?? { width: "26", height: "26", fill: "white
 href={href}
 class:list ={[
         "link",
-        className,
-        { filled: isFilled, bordered: borderVisible}
+        className
     ]}
-    {...rest}
 >
     {
         icon && icon.side === "left" && (
-            <Icon icon={icon.name} {...attributes} />
+            <Icon class="icon" icon={icon.name} {...attributes} />
         )
     }
     <span>{text}</span>
     {
          icon && icon.side === "right" && (
-            <Icon icon={icon.name} {...attributes}/>
+            <Icon class="icon" icon={icon.name} {...attributes}/>
         )
     }
 </a>
 
 <style>
-    /*text-[#525257]*/
     .link {
-        @apply p-1 relative inline-flex justify-between items-center;
+        @apply p-1 relative inline-flex justify-between items-center
+        md:justify-center
     }
      .bordered{
         @apply border-2 px-5 font-medium;
@@ -64,9 +57,12 @@ class:list ={[
          @apply bg-light-accent text-black px-4 font-bold
      }
     .container{
-        @apply p-4
+        @apply p-4 md:p-2
     }
     .no-padding{
         @apply p-0
+    }
+    .icon{
+        @apply md:hidden
     }
 </style>

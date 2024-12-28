@@ -5,12 +5,13 @@ import Icon from "./Icon.astro";
 const rows = Array.from({length: 10}, (_, i) => i + 1);
 ---
 
+
 <template id="listItemTemplate">
     <tr>
         <td>
-            <div class="bg-dark-accent my-2 p-3">
-                <a class="inline-block text-4xl my-4" id="title"></a>
-                <div class="flex w-2/3 items-center justify-between">
+            <div class="bg-dark-accent my-2 lg:my-0 p-3">
+                <a class="inline-block text-4xl my-4 lg:my-2 md:text-2xl md:my-1" id="title"></a>
+                <div class="flex w-2/3 items-center justify-between md:w-full">
                     <p id="author"></p>
                     <p id="date"></p>
                     <p id="time"></p>
@@ -21,7 +22,7 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
 </template>
 
 <template id="caption">
-    <caption class="text-3xl mt-36">Search <br />something</caption>
+    <caption class="text-3xl mt-36 xl:hidden">Search <br />something</caption>
 </template>
 
 <template id="loaderTemplate">
@@ -31,11 +32,27 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
 </template>
 
 
-<aside class=" flex flex-col">
+
+
+
+<aside class="flex flex-col relative">
+
+    <div
+        id="blurBg"
+        class="hidden fixed inset-0 backdrop-blur z-20"
+    ></div>
+
     <div class="search-bar">
-        <div class="absolute inset-y-0 start-3 flex items-center ps-3 pointer-events-none">
-            <Icon icon="search" width={37} height={37} fill="white" />
+        <div class="absolute inset-y-0 start-3 flex items-center ps-3 pointer-events-none lg:ps-2 md:ps-0.5 md:start-2">
+            <Icon
+                icon="search"
+                width={37}
+                height={37}
+                class="lg:w-9 md:w-5"
+                stroke="white"
+            />
         </div>
+        <label for="search"></label>
         <input
             type="text"
             required
@@ -46,8 +63,24 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
             id="search"
             autocomplete="off"
         />
+        <button
+            id="clearSearch"
+            class = "absolute inset-y-0 end-3 flex items-center pe-3 md:pe-0.5"
+            type="button"
+            style="visibility: hidden;"
+        >
+            <Icon
+                icon="cross"
+                width="34"
+                height="34"
+                class="md:w-6"
+                stroke="white"
+            />
+        </button>
     </div>
-    <div class="result-container scrollbar">
+
+
+    <div id = "searchContainer" class="result-container scrollbar">
         <div class="relative w-[98%]" dir="ltr">
             <p id="searchReadout"></p>
             <table id="searchResultList">
@@ -72,17 +105,20 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         top: 50%;
         transform:scale(0.8) translate(-50%, -50%);
     }
+    #clearSearch {
+        cursor: pointer;
+    }
 
     .result-container{
+        @apply h-[22.9rem] overflow-y-auto pointer-events-none
+        xl:z-30 xl:absolute xl:w-full xl:mt-20 xl:h-[32rem]
+        md:h-[20rem];
         direction: rtl;
-        height: 100%;
-        overflow-y: auto;
     }
-    table{
+     table{
         position: absolute;
         width: 100%;
     }
-
     p{
         @apply text-sm
     }
@@ -95,10 +131,13 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     }
 
     .search-bar{
-        @apply relative w-full mb-4
+        @apply relative w-full mb-4 flex items-center z-30
     }
     .search-input{
-        @apply block w-full text-4xl font-normal h-full p-4 ps-20 bg-dark-accent border-def-width focus:border-light-accent focus:rounded-none
+        @apply block w-full text-4xl font-normal h-full p-4 ps-20 bg-dark-accent border-def-width
+        focus:border-light-accent focus:rounded-none
+        lg:text-2xl
+        md:p-2 md:ps-10 md:text-xl
     }
 </style>
 
@@ -133,10 +172,13 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     const searchCaptionTemplateContent = searchCaptionTemplate.content;
 
     //search related
+    const searchContainer = document.getElementById("searchContainer") as HTMLDivElement;
     const search = document.getElementById("search") as HTMLInputElement;
     const searchReadout = document.getElementById("searchReadout") as HTMLElement;
     const searchResultList = document.getElementById("searchResultList") as HTMLElement;
 
+    const blurBg = document.getElementById("blurBg") as HTMLElement;
+    const clearSearchButton = document.getElementById("clearSearch");
 
     showCaption();
 
@@ -181,9 +223,11 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
 
     function fillOutResultList(results):void{
         if(results.length == 0){
+            searchContainer.style.pointerEvents ="none";
             searchResultList.innerHTML = "No results found...";
             return;
         }
+        searchContainer.style.pointerEvents = "auto";
         searchResultList.innerHTML = "";
         const fragment = document.createDocumentFragment() as HTMLElement;
         results.map((result) => {
@@ -222,11 +266,40 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         fillOutResultList(searchResult);
     }
 
+    function clearSearch() {
+        search.value = "";
+        updateSearchReadout("");
+        showCaption();
+        hideBlurBg();
+        clearSearchButton.style.visibility = "hidden";
+    }
+    function toggleClearButton() {
+        clearSearchButton.style.visibility = search.value ? "visible" : "hidden";
+    }
+    function showBlurBg(){
+        if(window.matchMedia("(max-width: 1130px)").matches){
+            blurBg.classList.remove("hidden");
+        }
+    }
+    function hideBlurBg(){
+        blurBg.classList.add("hidden");
+    }
+
 
     //event listeners
     search.addEventListener("input", ():void => {
         const searchTerm:string = DOMPurify.sanitize(search.value);
         updateSearchReadout(searchTerm);
         fetchSearchResults(searchTerm);
-    })
+        toggleClearButton();
+    });
+    search.addEventListener("focus", showBlurBg);
+    clearSearchButton.addEventListener("click", clearSearch);
+    blurBg.addEventListener("click", clearSearch);
+    document.addEventListener("keydown", (event) => {
+       if (event.key === "Escape" && !blurBg.classList.contains("hidden")){
+            clearSearch();
+            search.blur();
+       }
+    });
 </script>

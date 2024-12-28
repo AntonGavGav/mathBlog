@@ -26,7 +26,7 @@ const readingTime = getReadingTime(post.body);
         ></div>
         <div class="text-container">
             <div class="flex gap-4 items-center">
-                <p>{formatDate(date)}</p>
+                <p class="xl:hidden">{formatDate(date)}</p>
                 <p>{readingTime}</p>
             </div>
             <h2 class="blog-title">
@@ -42,22 +42,18 @@ const readingTime = getReadingTime(post.body);
 
 <style>
     .link-image{
-        position:relative;
-        width: 250px;
-        aspect-ratio: 16/12;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-        flex-shrink: 0;
+        @apply relative aspect-[16/12] bg-no-repeat bg-cover bg-center flex-shrink-0 w-[15rem]
+        xl:w-[11rem]
+        md:w-[8rem]
     }
     .text-container{
-        @apply flex-1 self-stretch flex flex-col justify-around py-2 pl-4;
+        @apply flex-1 self-stretch flex flex-col justify-around pl-4;
     }
     .blog-title{
-        @apply text-4xl max-w-full;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        @apply text-4xl leading-none max-w-full line-clamp-3 xl:line-clamp-2
+        lg:text-2xl
+    }
+    p{
+        @apply md:text-sm
     }
 </style>

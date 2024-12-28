@@ -1,4 +1,5 @@
 ---
+import { Astronav, MenuItems, MenuIcon, OpenIcon, CloseIcon} from "astro-navbar";
 import navData from "../../ts/navData";
 import Link from "../Link.astro";
 import Icon from "../Icon.astro";
@@ -6,17 +7,84 @@ import Icon from "../Icon.astro";
 const attributes = { width: "60", height: "60"};
 ---
 <nav>
-    <div class="min-w-full flex justify-between items-center p-3 container">
-        <a href = "/">
-            <Icon icon="logo" isInverted={true} {...attributes} />
-        </a>
-        <div class="flex gap-2">
-        {navData.map((item) => (
-            <Link
-                href={item.path}
-                text={item.name}
-            />
-        ))}
+    <Astronav id="astro-nav" closeOnClick>
+        <div class="header container z-50">
+            <a href = "/">
+                <Icon class="logo" icon="logo" isInverted={true} />
+            </a>
+            <div class="flex gap-2 order-1 lg:hidden">
+            {navData.map((item) => (
+                <Link
+                    href={item.path}
+                    text={item.name}
+                />
+            ))}
+            </div>
+
+            <MenuItems class="menu-items hidden">
+                <ul>
+                 {navData.map((item) => (
+                    <li>
+                        - <a href={item.path}>{item.name}</a>
+                    </li>
+                ))}
+                </ul>
+            </MenuItems>
+            <div class="order-3 hidden lg:flex items-center">
+                <MenuIcon>
+                    <OpenIcon>
+                        <Icon icon="3lines" class="menu-icon" stroke = "white" />
+                    </OpenIcon>
+                    <CloseIcon>
+                        <Icon icon="cross" class="menu-icon" stroke = "white" />
+                    </CloseIcon>
+                </MenuIcon>
+            </div>
         </div>
-    </div>
+    </Astronav>
 </nav>
+
+<style>
+    .menu-items{
+        @apply absolute z-10 right-[-3px] top-[100%] bg-dark-accent border-r-def-width border-b-def-width border-light-accent
+        md:right-[-2px]
+    }
+    .menu-items ul{
+        @apply p-2 flex flex-col gap-2
+    }
+    .header{
+        @apply relative min-w-full flex justify-between items-center p-3
+        md:p-2
+    }
+    .logo{
+        @apply w-14 lg:w-12 md:w-8
+    }
+    .menu-icon{
+        @apply w-8 md:w-6
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function handleResize() {
+      closeMenu();
+  }
+  window.addEventListener("resize", handleResize);
+});
+
+
+function closeMenu() {
+    const navMenuItems = document.querySelector(".astronav-items");
+    if (! navMenuItems.classList.contains("hidden")) {
+        const navToggle = document.getElementById("astronav-menu");
+
+        const MenuIcons = navToggle.querySelectorAll(".astronav-toggle");
+
+        navMenuItems?.classList.add("hidden");
+        MenuIcons.forEach((el) => {
+            el.classList.toggle("hidden");
+        });
+    }
+
+}
+</script>
