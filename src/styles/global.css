@@ -118,34 +118,43 @@
     }
 
     .post-content h1 {
-        @apply font-sans text-5xl font-bold mb-4;
+        @apply font-sans text-5xl font-bold mb-4
+        xl:mb-2
+        lg:text-4xl
+        md:text-3xl;
     }
 
     .post-content h2 {
-        @apply font-sans text-3xl mb-2;
+        @apply font-sans text-3xl mb-2
+        xl:mb-1
+        md:text-2xl;
     }
 
     .post-content p + h1,
     .post-content p + h2 {
-        @apply mt-8;
+        @apply mt-8
+        lg:mt-6
+        md:mt-4;
     }
 
     .post-content strong {
-        font-weight: 800;
+        font-weight: 700;
     }
 
     .post-content ul ul,
     .post-content ul ol,
     .post-content ol ul,
     .post-content ol ol {
-        @apply ml-6;
+        @apply ml-6
+        md:ml-4;
     }
 
     .post-content ul + ol,
     .post-content ol + ul,
     .post-content ul + ul,
     .post-content ol + ol {
-        @apply mt-4;
+        @apply mt-4
+        md:mt-2;
     }
 
     .post-content ul,
@@ -163,7 +172,9 @@
     }
 
     .post-content .astro-code {
-        @apply my-6 px-6 py-10 text-xl;
+        @apply my-6 px-6 py-10 text-xl
+        lg:text-lg lg:px-4 lg:py-6 lg:leading-tight
+        md:text-[16px] md:px-1 md:py-1 md:my-4;
     }
 
     .post-content p code {
@@ -176,6 +187,7 @@
         white-space: pre-wrap;
         word-wrap: break-word;
         vertical-align: middle;
+        @apply lg:py-0 lg:px-0
     }
 
     .post-content p img {
