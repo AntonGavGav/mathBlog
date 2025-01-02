@@ -1,8 +1,6 @@
 ---
 //components import
 import Icon from "./Icon.astro";
-
-const rows = Array.from({length: 10}, (_, i) => i + 1);
 ---
 
 
@@ -145,10 +143,19 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     //lib import
     import DOMPurify from "dompurify";
     import Fuse from "fuse.js";
-    import {HTMLElement} from "node-html-parser";
 
-    let SEARCH_DATA;
-    let FUSE_INSTANCE;
+
+    type Post = {
+        slug: string;
+        title: string;
+        author: string;
+        date: string;
+        readTime: string;
+    };
+
+
+    let SEARCH_DATA: Post[] | undefined;
+    let FUSE_INSTANCE: Fuse<Post> | undefined;
     const FUSE_OPTIONS = {
         includeScore: true,
         shouldSort: true,
@@ -178,12 +185,12 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
     const searchResultList = document.getElementById("searchResultList") as HTMLElement;
 
     const blurBg = document.getElementById("blurBg") as HTMLElement;
-    const clearSearchButton = document.getElementById("clearSearch");
+    const clearSearchButton = document.getElementById("clearSearch") as HTMLElement;
 
     showCaption();
 
     //functions
-    export function formatDate(date:string){
+    export function formatDate(date:string): string{
         return new Date(date).toLocaleDateString('en-US', {timeZone: "UTC",});
     }
 
@@ -192,36 +199,36 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         ? `Search results for "${searchTerm}"`
         : "";
     }
-    function runSpinner(){
+    function runSpinner():void{
         const loaderTemplateClone = loaderTemplateContent.cloneNode(true) as HTMLElement;
         searchResultList.innerHTML = '';
         searchResultList.appendChild(loaderTemplateClone);
     }
-    function createListItem(title, author, date, readTime, slug): HTMLElement{
-        const template = listItemTemplateContent.cloneNode(true) as HTMLElement;
+    function createListItem(title:string, author:string, date:string, readTime:string, slug:string): DocumentFragment{
+        const template = listItemTemplateContent.cloneNode(true) as DocumentFragment;
 
-        const linkElement = template.querySelector("a");
+        const linkElement = template.querySelector("a")!;
         linkElement.setAttribute("href", `/blog/${slug}`);
         linkElement.textContent = title;
 
-        const authorElement = template.getElementById("author");
+        const authorElement = template.getElementById("author")!;
         authorElement.textContent = author;
 
-        const dateElement = template.getElementById("date");
+        const dateElement = template.getElementById("date")!;
         dateElement.textContent = date;
 
-        const readingTimeElement = template.getElementById("time");
+        const readingTimeElement = template.getElementById("time")!;
         readingTimeElement.textContent = readTime;
 
         return template;
     }
 
-    function showCaption(){
+    function showCaption():void{
         searchResultList.innerHTML = "";
         searchResultList.appendChild(searchCaptionTemplateContent.cloneNode(true) as HTMLElement);
     }
 
-    function fillOutResultList(results):void{
+    function fillOutResultList(results: Array<{item:Post}>):void{
         if(results.length == 0){
             searchContainer.style.pointerEvents ="none";
             searchResultList.innerHTML = "No results found...";
@@ -229,7 +236,7 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         }
         searchContainer.style.pointerEvents = "auto";
         searchResultList.innerHTML = "";
-        const fragment = document.createDocumentFragment() as HTMLElement;
+        const fragment = document.createDocumentFragment();
         results.map((result) => {
             const { title, author, date, readTime, slug } = result.item;
             const formattedDate = formatDate(date);
@@ -239,7 +246,7 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         searchResultList.appendChild(fragment);
     }
 
-    async function fetchSearchResults(term: string){
+    async function fetchSearchResults(term: string): Promise<void>{
         if(term.length === 0){
             showCaption();
             return;
@@ -262,27 +269,29 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
             FUSE_INSTANCE = new Fuse(SEARCH_DATA, FUSE_OPTIONS);
         }
 
-        const searchResult = FUSE_INSTANCE.search(term);
+        const searchResult = FUSE_INSTANCE?.search(term) || [];
         fillOutResultList(searchResult);
     }
 
-    function clearSearch() {
+    function clearSearch(): void {
         search.value = "";
         updateSearchReadout("");
         showCaption();
         hideBlurBg();
         clearSearchButton.style.visibility = "hidden";
     }
-    function toggleClearButton() {
-        clearSearchButton.style.visibility = search.value ? "visible" : "hidden";
+    function toggleClearButton(): void {
+        if (clearSearchButton) {
+            clearSearchButton.style.visibility = search.value ? "visible" : "hidden";
+        }
     }
-    function showBlurBg(){
-        if(window.matchMedia("(max-width: 1130px)").matches){
+    function showBlurBg(): void{
+        if(blurBg && window.matchMedia("(max-width: 1130px)").matches){
             blurBg.classList.remove("hidden");
         }
     }
-    function hideBlurBg(){
-        blurBg.classList.add("hidden");
+    function hideBlurBg():void{
+        if (blurBg) blurBg.classList.add("hidden");
     }
 
 
@@ -294,10 +303,14 @@ const rows = Array.from({length: 10}, (_, i) => i + 1);
         toggleClearButton();
     });
     search.addEventListener("focus", showBlurBg);
-    clearSearchButton.addEventListener("click", clearSearch);
-    blurBg.addEventListener("click", clearSearch);
+    if (clearSearchButton) {
+        clearSearchButton.addEventListener("click", clearSearch);
+    }
+    if (blurBg) {
+        blurBg.addEventListener("click", clearSearch);
+    }
     document.addEventListener("keydown", (event) => {
-       if (event.key === "Escape" && !blurBg.classList.contains("hidden")){
+       if (event.key === "Escape" && blurBg && !blurBg.classList.contains("hidden")){
             clearSearch();
             search.blur();
        }

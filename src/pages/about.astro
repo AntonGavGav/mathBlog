@@ -172,9 +172,9 @@ const eventfullynx = creatorData["EventfulLynx915"];
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const scrollContainer = document.getElementById("scrollContainer");
-        const dot1 = document.getElementById("dot1");
-        const dot2 = document.getElementById("dot2");
+        const scrollContainer = document.getElementById("scrollContainer") as HTMLElement;
+        const dot1 = document.getElementById("dot1") as HTMLElement;
+        const dot2 = document.getElementById("dot2") as HTMLElement;
 
         let currentSElementVisible = 1;
 
@@ -199,19 +199,19 @@ const eventfullynx = creatorData["EventfulLynx915"];
         scrollContainer.addEventListener('scroll', handleScroll);
 
 
-        const listContainer = document.getElementById('gamified-list-container');
-        const list = document.getElementById('gamified-list');
+        const listContainer = document.getElementById('gamified-list-container') as HTMLElement;
+        const list = document.getElementById('gamified-list') as HTMLElement;
         const items = Array.from(list.children);
         let selectedIndex = 0;
         let isMouseOver = false;
 
         const updateSelection = () => {
             items.forEach((item, index) => {
-                item.textContent = (index === selectedIndex ? '> ' : '- ') + item.textContent.replace(/^[-> ]/, '');
+                item.textContent = (index === selectedIndex ? '> ' : '- ') + item.textContent!.replace(/^[-> ]/, '');
             });
         };
 
-        const handleKeyDown = (event) => {
+        const handleKeyDown = (event: KeyboardEvent) => {
             if (isMouseOver) {
                 event.preventDefault(); // Prevent default scrolling behavior
                 if (event.key === 'ArrowDown') {
