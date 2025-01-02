@@ -184,8 +184,8 @@ import Icon from "./Icon.astro";
     const searchReadout = document.getElementById("searchReadout") as HTMLElement;
     const searchResultList = document.getElementById("searchResultList") as HTMLElement;
 
-    const blurBg = document.getElementById("blurBg") as HTMLElement | null;
-    const clearSearchButton = document.getElementById("clearSearch") as HTMLElement | null;
+    const blurBg = document.getElementById("blurBg") as HTMLElement;
+    const clearSearchButton = document.getElementById("clearSearch") as HTMLElement;
 
     showCaption();
 
@@ -204,20 +204,20 @@ import Icon from "./Icon.astro";
         searchResultList.innerHTML = '';
         searchResultList.appendChild(loaderTemplateClone);
     }
-    function createListItem(title, author, date, readTime, slug): DocumentFragment{
+    function createListItem(title:string, author:string, date:string, readTime:string, slug:string): DocumentFragment{
         const template = listItemTemplateContent.cloneNode(true) as DocumentFragment;
 
-        const linkElement = template.querySelector("a");
+        const linkElement = template.querySelector("a")!;
         linkElement.setAttribute("href", `/blog/${slug}`);
         linkElement.textContent = title;
 
-        const authorElement = template.getElementById("author");
+        const authorElement = template.getElementById("author")!;
         authorElement.textContent = author;
 
-        const dateElement = template.getElementById("date");
+        const dateElement = template.getElementById("date")!;
         dateElement.textContent = date;
 
-        const readingTimeElement = template.getElementById("time");
+        const readingTimeElement = template.getElementById("time")!;
         readingTimeElement.textContent = readTime;
 
         return template;
@@ -228,7 +228,7 @@ import Icon from "./Icon.astro";
         searchResultList.appendChild(searchCaptionTemplateContent.cloneNode(true) as HTMLElement);
     }
 
-    function fillOutResultList(results):void{
+    function fillOutResultList(results: Array<{item:Post}>):void{
         if(results.length == 0){
             searchContainer.style.pointerEvents ="none";
             searchResultList.innerHTML = "No results found...";

@@ -3,11 +3,9 @@ import { Astronav, MenuItems, MenuIcon, OpenIcon, CloseIcon} from "astro-navbar"
 import navData from "../../ts/navData";
 import Link from "../Link.astro";
 import Icon from "../Icon.astro";
-
-const attributes = { width: "60", height: "60"};
 ---
 <nav>
-    <Astronav id="astro-nav" closeOnClick>
+    <Astronav closeOnClick={true}>
         <div class="header container z-50">
             <a href = "/">
                 <Icon class="logo" icon="logo" isInverted={true} />
@@ -75,15 +73,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function closeMenu() {
     const navMenuItems = document.querySelector(".astronav-items");
-    if (! navMenuItems.classList.contains("hidden")) {
+    if (navMenuItems && !navMenuItems.classList.contains("hidden")) {
         const navToggle = document.getElementById("astronav-menu");
 
-        const MenuIcons = navToggle.querySelectorAll(".astronav-toggle");
+        if (navToggle) {
+            const MenuIcons = navToggle.querySelectorAll(".astronav-toggle");
 
-        navMenuItems?.classList.add("hidden");
-        MenuIcons.forEach((el) => {
-            el.classList.toggle("hidden");
-        });
+            navMenuItems?.classList.add("hidden");
+            MenuIcons.forEach((el) => {
+                el.classList.toggle("hidden");
+            });
+        }
     }
 
 }
