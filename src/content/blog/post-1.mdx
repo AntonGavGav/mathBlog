@@ -7,6 +7,7 @@ image:
 date: 2022-12-20
 pinned: true
 ---
+import Hint from "../../components/postParts/Hint.astro";
 
 # Hi there!
 some text will go in here
@@ -44,6 +45,12 @@ a_{2,1} & a_{2,2} & \cdots & a_{2,n} \\
 a_{m,1} & a_{m,2} & \cdots & a_{m,n}
 \end{pmatrix}
 $$
+
+
+<Hint>
+    <span slot="text">HIINT</span>
+    <span slot="hint">This is the hint itself</span>
+</Hint>
 
 `what if I write code like this`
 ```py index.js
